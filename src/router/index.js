@@ -1,22 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/views/login.vue'
+import StuHomePage from '@/views/student/stuHomePage.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: '/Login'
+    redirect: '/Login',
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
-  }
+    component: Login,
+  },
+  {
+    path: '/stu-home-page',
+    name: 'StuHomePage',
+    component: StuHomePage,
+  },
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
 })
 
 export default router
