@@ -3,13 +3,13 @@
     <el-row>
       <!-- logo部分 -->
       <el-col :md="4">
-        <div class="logo"><el-image fit="cover" style="height: 32px" :src="url[0]"></el-image></div>
+        <div class="logo"><el-image fit="contain" style="height: 3rem" :src="url[0]"></el-image></div>
       </el-col>
-      <el-col :md="{ span: 6, offset: 14 }">
+      <el-col :md="{ span: 5, offset: 15 }">
         <div class="header-right">
-          <span class="header-right-icon"><i class="el-icon-setting"></i></span>
-          <span class="header-right-icon"> <i class="el-icon-bell"></i></span>
-          <span class="header-right-icon"> <el-avatar class="header-right-avatar" shape="circle" size="medium" :src="url[1]"></el-avatar> <span class="header-right-username">林成俊</span> </span>
+          <span class="header-right-icon"><i class="el-icon-setting icon-hover"></i></span>
+          <span class="header-right-icon"> <el-badge value="new" class="el-icon-bell icon-hover"></el-badge></span>
+          <span class="header-right-icon"> <el-avatar class="header-right-avatar" shape="circle" size="medium" :src="url[1]"></el-avatar> <span class="header-right-username icon-hover">林成俊</span> </span>
         </div>
       </el-col>
     </el-row>
@@ -31,7 +31,7 @@ export default {
 .logo {
   height: 60px;
   text-align: center;
-  padding-top: 14px;
+  padding-top: 5px;
   box-sizing: border-box;
 }
 .header-right {
@@ -41,6 +41,12 @@ export default {
   font-size: 20px;
   .header-right-icon {
     margin: 0 10px;
+    .icon-hover {
+      cursor: pointer;
+    }
+    .icon-hover:hover {
+      color: #f56c6c;
+    }
   }
   .header-right-avatar {
     position: absolute;
