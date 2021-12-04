@@ -6,7 +6,12 @@
         <el-col :xs="2" :sm="2" :md="4"
           ><div class="aside"><Aside></Aside></div
         ></el-col>
-        <el-col :xs="22" :sm="22" :md="20"><el-main>Main</el-main></el-col>
+        <el-col :xs="22" :sm="22" :md="20">
+          <el-main>
+            <!-- 利用路由切换主内容部分 -->
+            <router-view></router-view>
+          </el-main>
+        </el-col>
       </el-row>
     </el-container>
   </div>
@@ -35,8 +40,9 @@ export default {
 .aside {
   background-color: #fff;
   text-align: left;
-  height: 800px;
-  border-bottom-left-radius: 8px;
+  height: 500px;
+
+  padding-top: 1rem;
 }
 
 .el-main {
