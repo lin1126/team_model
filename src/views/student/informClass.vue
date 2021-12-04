@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <h1>正在学习的课程</h1>
-  </div>
+  <div><h1>课堂通知</h1></div>
 </template>
 
 <script>
 export default {
-  name: 'studyCourse',
+  name: 'endCourse',
 }
 </script>
 

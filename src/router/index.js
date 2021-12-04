@@ -4,12 +4,19 @@ import VueRouter from 'vue-router'
 import Login from '@/views/login.vue'
 import StuHomePage from '@/views/student/stuHomePage.vue'
 import StudyCourse from '@/views/student/studyCourse.vue'
+import EndCourse from '@/views/student/endCourse.vue'
+import InfromClass from '@/views/student/informClass.vue'
+import Message from '@/views/student/message.vue'
+import ClassroomQuery from '@/views/student/classroomQuery.vue'
+import StuInfo from '@/views/student/stuInfo.vue'
+import StuPhone from '@/views/student/stuPhone.vue'
+import StuPassword from '@/views/student/stuPassword.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: '/stu-home-page',
+    redirect: '/login',
   },
   {
     path: '/login',
@@ -17,18 +24,53 @@ const routes = [
     component: Login,
   },
   {
-    path: '/stu-home-page',
+    path: '/stuhomepage',
     name: 'StuHomePage',
     component: StuHomePage,
     children: [
       {
         path: '/',
-        redirect: '/stu-home-page/study-course',
+        redirect: '/stuhomepage/studycourse',
       },
       {
-        path: 'study-course',
+        path: 'studycourse',
         name: 'StudyCourse',
         component: StudyCourse,
+      },
+      {
+        path: 'endcourse',
+        name: 'EndCourse',
+        component: EndCourse,
+      },
+      {
+        path: 'infromClass',
+        name: 'InfromClass',
+        component: InfromClass,
+      },
+      {
+        path: 'message',
+        name: 'Message',
+        component: Message,
+      },
+      {
+        path: 'classroomQuery',
+        name: 'ClassroomQuery',
+        component: ClassroomQuery,
+      },
+      {
+        path: 'stuInfo',
+        name: 'StuInfo',
+        component: StuInfo,
+      },
+      {
+        path: 'stuPhone',
+        name: 'StuPhone',
+        component: StuPhone,
+      },
+      {
+        path: 'stuPassword',
+        name: 'StuPassword',
+        component: StuPassword,
       },
     ],
   },
