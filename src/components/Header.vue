@@ -5,11 +5,64 @@
       <el-col :md="4">
         <div class="logo"><el-image fit="contain" style="height: 3rem" :src="url[0]"></el-image></div>
       </el-col>
-      <el-col :md="{ span: 5, offset: 15 }">
+      <el-col :md="{ span: 6, offset: 14 }">
+        <!-- 首页头部右边部分 -->
         <div class="header-right">
+          <!-- 设置图标部分 -->
           <span class="header-right-icon"><i class="el-icon-setting icon-hover"></i></span>
-          <span class="header-right-icon"> <el-badge value="new" class="el-icon-bell icon-hover"></el-badge></span>
-          <span class="header-right-icon"> <el-avatar class="header-right-avatar" shape="circle" size="medium" :src="url[1]"></el-avatar> <span class="header-right-username icon-hover">林成俊</span> </span>
+          <!-- 消息通知部分 -->
+          <span class="header-right-icon header-right-notice">
+            <el-badge is-dot class="el-icon-bell bell-icon-hover">
+              <!-- 鼠标悬浮时出现的div -->
+              <transition name="el-fade-in">
+                <div class="floatNotice stophover" v-show="showNotice">
+                  <!-- 悬浮消息通知选项卡部分 -->
+                  <el-tabs v-model="activeName" @tab-click="handleClick" stretch="true">
+                    <el-tab-pane label="全部" name="first">
+                      <!-- 悬浮消息通知全部选项卡内容部分 -->
+                      <div v-for="o in 4" :key="o" class="text item">
+                        <span>{{ '作业通知 ' + o }}</span> <span class="small-text">课程：计算机组成原理&nbsp;&nbsp;&nbsp;&nbsp;发布人：林旭云</span>
+                      </div>
+                      <div v-for="o in 4" :key="o" class="text item">
+                        <span>{{ '朋友留言 ' + o }}</span> <span class="small-text">————林旭云</span>
+                      </div>
+                    </el-tab-pane>
+                    <!-- 悬浮消息通知课程通知选项卡内容部分 -->
+                    <el-tab-pane label="课程通知" name="second">
+                      <div v-for="o in 4" :key="o" class="text item">
+                        <span>{{ '作业通知 ' + o }}</span> <span class="small-text">课程：计算机组成原理&nbsp;&nbsp;&nbsp;&nbsp;发布人：林旭云</span>
+                      </div>
+                    </el-tab-pane>
+                    <!-- 悬浮消息通知消息选项卡内容部分 -->
+                    <el-tab-pane label="消息" name="third">
+                      <div v-for="o in 4" :key="o" class="text item">
+                        <span>{{ '朋友留言 ' + o }}</span> <span class="small-text">————林旭云</span>
+                      </div>
+                    </el-tab-pane>
+                  </el-tabs>
+                  <!-- 悬浮消息通知选项卡底部部分 -->
+                  <div class="floatNotice-bottom">
+                    <div class="floatNotice-bottom-read"><i class="el-icon-thumb"></i>一键已读</div>
+                    <div class="floatNotice-bottom-all"><i class="el-icon-view"></i>全部消息</div>
+                  </div>
+                </div>
+              </transition>
+            </el-badge>
+          </span>
+
+          <span class="header-right-icon">
+            <el-avatar class="header-right-avatar" shape="circle" size="medium" :src="url[1]"> </el-avatar>
+            <!-- 显示用户名部分 -->
+            <span class="header-right-username icon-hover">
+              <el-dropdown>
+                <span class="el-dropdown-link icon-hover">林成俊<i class="el-icon-arrow-down el-icon--right"></i> </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>个人中心</el-dropdown-item>
+                  <el-dropdown-item>注销</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </span>
+          </span>
         </div>
       </el-col>
     </el-row>
@@ -22,6 +75,8 @@ export default {
   data() {
     return {
       url: [require('../assets/images/logo.png'), 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'],
+      activeName: 'first',
+      showNotice: false,
     }
   },
 }
@@ -44,18 +99,98 @@ export default {
     .icon-hover {
       cursor: pointer;
     }
-    .icon-hover:hover {
+    .icon-hover:hover,
+    .bell-icon-hover:hover {
       color: #f56c6c;
     }
+    .bell-icon-hover:hover .floatNotice {
+      color: #000;
+    }
+    .stophover:hover {
+      color: #000;
+    }
+    .header-right-avatar {
+      position: absolute;
+      top: 13px;
+      vertical-align: middle;
+    }
+    // 悬浮消息通知选项卡
+    .floatNotice {
+      position: absolute;
+      top: 30px;
+      right: -6px;
+      width: 420px;
+      min-height: 120px;
+      padding: 10px 16px;
+      background-color: #fff;
+      border: 2px solid #e7e7e7;
+      border-radius: 6px;
+      box-shadow: inset 0 0 6px #e7e7e7;
+
+      .el-tab-pane {
+        padding: 0 16px;
+      }
+
+      .text {
+        font-size: 16px;
+      }
+      .small-text {
+        float: right;
+        font-size: 12px;
+        color: #acbbd6;
+      }
+      .item {
+        padding: 9px 0;
+      }
+      .item:hover {
+        background-color: #ecf5ff !important;
+        color: #409eff;
+      }
+
+      .floatNotice-bottom {
+        display: flex;
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+        padding: 10px 0;
+        color: #409eff;
+        box-sizing: border-box;
+
+        .floatNotice-bottom-read,
+        .floatNotice-bottom-all {
+          flex: 1;
+          text-align: center;
+
+          .el-icon-thumb,
+          .el-icon-view {
+            padding-right: 6px;
+          }
+        }
+      }
+    }
+    .floatNotice::before {
+      content: '';
+      position: absolute;
+      top: -24px;
+      right: 0;
+      width: 0;
+      height: 0;
+      border: 16px solid transparent;
+      border-bottom: 16px solid #fff;
+    }
+    .el-badge {
+      vertical-align: inherit;
+    }
   }
-  .header-right-avatar {
-    position: absolute;
-    top: 13px;
-    vertical-align: middle;
+  .header-right-notice {
+    margin-right: 24px;
   }
   .header-right-username {
-    margin-left: 46px;
-    font-size: 14px;
+    margin-left: 52px;
+
+    .el-dropdown-link {
+      cursor: pointer;
+    }
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu :default-openeds="['1', '2']">
+    <el-menu :default-openeds="['1']">
       <el-submenu index="1">
         <template slot="title" style="padding-left: 40px"><i class="el-icon-reading"></i>我的课程</template>
         <router-link to="/stuhomepage/studycourse"><el-menu-item index="1-1">正在学习 </el-menu-item></router-link>

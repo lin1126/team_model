@@ -38,20 +38,23 @@ export default {
   box-shadow: 0 3px 3px #dcdfe6;
 }
 .aside {
-  min-height: 500px;
+  min-height: 680px;
   background-color: #fff;
   text-align: left;
   padding: 1rem 0;
   border: 0;
   border-bottom-right-radius: 24px;
   border-bottom-left-radius: 24px;
+  box-sizing: border-box;
 }
 
 .el-main {
-  height: 500px;
+  min-height: 660px;
+  margin: 1rem;
+  padding: 10px;
+  border-radius: 14px;
   background-color: #fff;
   color: #333;
-  margin: 1rem 0 0 1rem;
-  padding: 0;
+  box-sizing: border-box;
 }
 </style>
