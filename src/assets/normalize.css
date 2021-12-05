@@ -17,6 +17,8 @@ html {
   -webkit-text-size-adjust: 100%; /* 3 */
   box-sizing: border-box;
   background-color: #eef1f6;
+  width: 100%;
+  height: 100%;
 }
 
 /* Sections
@@ -28,6 +30,8 @@ html {
 
 body {
   margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /**
