@@ -1,13 +1,30 @@
 <template>
   <div>
-    <h1>正在学习的课程</h1>
+    <!-- 头部课程搜索框部分 -->
+    <div class="stu-head">
+      <CourseSearch> </CourseSearch>
+    </div>
+    <el-divider></el-divider>
   </div>
 </template>
 
 <script>
+import CourseSearch from '@/components/CourseSearch.vue'
 export default {
   name: 'studyCourse',
+  components: {
+    CourseSearch,
+  },
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.stu-head {
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+.el-divider--horizontal {
+  margin: 6px;
+}
+</style>
