@@ -92,6 +92,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@keyframes bigCloudMoveFirst {
+  0% {
+    top: 96px;
+    left: 335px;
+  }
+  100% {
+    top: 180px;
+    left: 500px;
+  }
+}
 @keyframes bigCloudMove {
   0% {
     top: -80px;
@@ -103,7 +113,16 @@ export default {
     left: 500px;
   }
 }
-
+@keyframes smallCloudMoveFirst {
+  0% {
+    top: 95px;
+    left: 164px;
+  }
+  100% {
+    top: 268px;
+    left: 500px;
+  }
+}
 @keyframes smallCloudMove {
   0% {
     top: -30px;
@@ -112,6 +131,16 @@ export default {
 
   100% {
     top: 268px;
+    left: 500px;
+  }
+}
+@keyframes miniCloudMoveFirst {
+  0% {
+    top: 0px;
+    left: 286px;
+  }
+  100% {
+    top: 125px;
     left: 500px;
   }
 }
@@ -154,33 +183,31 @@ export default {
 
     .big-cloud {
       position: absolute;
-      // top: 96px;
-      // left: 335px;
+      top: 96px;
+      left: 335px;
       width: 80px;
       height: 80px;
-      animation: bigCloudMove 30s ease-in 2s infinite;
+      animation: bigCloudMoveFirst 20s ease-in, bigCloudMove 45s ease-in 20s infinite;
     }
 
     .small-clound {
       position: absolute;
       top: -30px;
       left: -60px;
-      // top: 95px;
-      // left: 164px;
+      top: 95px;
+      left: 164px;
       width: 60px;
       height: 60px;
-      animation: smallCloudMove 20s ease-in 4s infinite;
+      animation: smallCloudMoveFirst 35s ease-in, smallCloudMove 55s ease-in 35s infinite;
     }
 
     .mini-clound {
       position: absolute;
       top: 0px;
-      // left: 286px;
-      // width: 40px;
-      top: -40px;
-      left: 212px;
+      left: 286px;
+      width: 40px;
       height: 40px;
-      animation: miniCloudMove 60s ease-in 0s infinite;
+      animation: miniCloudMoveFirst 45s ease-in, miniCloudMove 60s ease-in 45s infinite;
     }
   }
 

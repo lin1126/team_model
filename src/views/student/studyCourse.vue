@@ -10,8 +10,8 @@
     <div class="study-contain">
       <el-row :gutter="10">
         <!-- 单个课程的盒子开始 -->
-        <el-col :md="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-cover">
+        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
+          <div class="course-box">
             <!-- 课程顶部图片 -->
             <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
               <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
@@ -27,8 +27,8 @@
           </div>
         </el-col>
         <!-- 单个课程的盒子结束 -->
-        <el-col :md="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-cover">
+        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
+          <div class="course-box">
             <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
               <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
             </el-image>
@@ -40,8 +40,8 @@
             <div class="course-teacher">授课教师：张茹</div>
           </div>
         </el-col>
-        <el-col :md="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-cover">
+        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
+          <div class="course-box">
             <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
               <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
             </el-image>
@@ -87,7 +87,7 @@ export default {
 .study-contain {
   padding: 10px 24px;
 
-  .course-cover {
+  .course-box {
     height: 282px;
     border-radius: 14px;
     cursor: pointer;
@@ -95,7 +95,7 @@ export default {
     border: 1px solid #fff;
     transition: all 0.25s ease-in-out;
   }
-  .course-cover:hover {
+  .course-box:hover {
     transform: translateY(-5px);
     border: 1px solid rgba(0, 135, 203, 0.5);
     box-shadow: 0px 4px 32px -16px rgba(0, 135, 203, 0.5);
