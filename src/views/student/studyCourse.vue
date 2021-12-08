@@ -1,11 +1,8 @@
 <template>
   <div>
-    <!-- 头部课程搜索框部分 -->
-    <div class="stu-head">
-      <CourseSearch> </CourseSearch>
-    </div>
-    <!-- 分割线 -->
-    <el-divider></el-divider>
+    <!-- 页面头部内容 -->
+    <PageHeader pageHeaderContent="正在学习"> </PageHeader>
+
     <!-- 课程盒子部分 -->
     <div class="study-contain">
       <el-row :gutter="10">
@@ -60,11 +57,11 @@
 </template>
 
 <script>
-import CourseSearch from '@/components/CourseSearch.vue'
+import PageHeader from '@/components/PageHeader.vue'
 export default {
   name: 'studyCourse',
   components: {
-    CourseSearch,
+    PageHeader,
   },
   data() {
     return {
@@ -75,11 +72,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.stu-head {
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-}
 .el-divider--horizontal {
   margin: 6px;
 }

@@ -1,11 +1,7 @@
 <template>
   <div>
-    <!-- 头部课程搜索框部分 -->
-    <div class="stu-head">
-      <CourseSearch> </CourseSearch>
-    </div>
-    <!-- 分割线 -->
-    <el-divider></el-divider>
+    <!-- 页面头部模块 -->
+    <PageHeader pageHeaderContent="已结束"> </PageHeader>
     <!-- 课程盒子部分 -->
     <div class="study-contain">
       <el-row :gutter="10">
@@ -13,7 +9,7 @@
         <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
           <div class="course-box">
             <!-- 遮蔽图层  -->
-            <div class="course-cover">已结课</div>
+            <div class="course-cover" v-show="isEnd">已结课</div>
             <!-- 课程顶部图片 -->
             <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
               <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
@@ -62,30 +58,22 @@
 </template>
 
 <script>
-import CourseSearch from '@/components/CourseSearch.vue'
+import PageHeader from '@/components/PageHeader.vue'
 export default {
   name: 'endCourse',
   components: {
-    CourseSearch,
+    PageHeader,
   },
   data() {
     return {
       src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
+      isEnd: true,
     }
   },
 }
 </script>
 
 <style lang="less" scoped>
-.stu-head {
-  width: 100%;
-  height: 60px;
-  line-height: 60px;
-}
-.el-divider--horizontal {
-  margin: 6px;
-}
-
 .study-contain {
   padding: 10px 24px;
 
