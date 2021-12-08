@@ -1,7 +1,16 @@
 <template>
   <div>
-    <!-- 页面头部组件 -->
-    <PageHeader pageHeaderContent="课堂通知"></PageHeader>
+    <!-- 页面头部内容 -->
+    <div class="page-head">
+      <PageHeader pageHeaderContent="课堂通知"> </PageHeader>
+      <div class="stu-search">
+        <el-input placeholder="请输入内容" v-model="courseSearchInput" clearable class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </div>
+    </div>
+    <!-- 分割线 -->
+    <el-divider></el-divider>
 
     <!-- 课堂通知主体部分 -->
     <div class="notification-content">
@@ -81,6 +90,7 @@ export default {
   },
   data() {
     return {
+      courseSearchInput: '',
       isIndeterminate: true,
       checkedCities: ['1'],
       checkboxShow: true,
@@ -91,6 +101,31 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.page-head {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+
+.el-divider--horizontal {
+  margin: 6px;
+}
+.stu-search {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // float: right;
+  width: 320px;
+  height: 60px;
+  line-height: 60px;
+  padding-right: 32px;
+}
+
+.el-input-group__append button.el-button:hover {
+  color: #409eff !important;
+}
+
 .notification-content {
   padding: 10px 16px;
 

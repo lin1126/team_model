@@ -1,7 +1,16 @@
 <template>
   <div>
-    <!-- 页面头部模块 -->
-    <PageHeader pageHeaderContent="已结束"> </PageHeader>
+    <!-- 页面头部内容 -->
+    <div class="page-head">
+      <PageHeader pageHeaderContent="已结束"> </PageHeader>
+      <div class="stu-search">
+        <el-input placeholder="请输入内容" v-model="courseSearchInput" clearable class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </div>
+    </div>
+    <!-- 分割线 -->
+    <el-divider></el-divider>
     <!-- 课程盒子部分 -->
     <div class="study-contain">
       <el-row :gutter="10">
@@ -68,12 +77,38 @@ export default {
     return {
       src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
       isEnd: true,
+      courseSearchInput: '',
     }
   },
 }
 </script>
 
 <style lang="less" scoped>
+.page-head {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+
+.el-divider--horizontal {
+  margin: 6px;
+}
+.stu-search {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // float: right;
+  width: 320px;
+  height: 60px;
+  line-height: 60px;
+  padding-right: 32px;
+}
+
+.el-input-group__append button.el-button:hover {
+  color: #409eff !important;
+}
+
 .study-contain {
   padding: 10px 24px;
 
