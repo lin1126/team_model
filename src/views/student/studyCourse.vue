@@ -2,7 +2,7 @@
   <div>
     <!-- 页面头部内容 -->
     <div class="page-head">
-      <PageHeader pageHeaderContent="已结束"> </PageHeader>
+      <PageHeader pageHeaderContent="正在学习"> </PageHeader>
       <div class="stu-search">
         <el-input placeholder="请输入内容" v-model="courseSearchInput" clearable class="input-with-select">
           <el-button slot="append" icon="el-icon-search"></el-button>

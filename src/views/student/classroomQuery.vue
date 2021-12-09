@@ -1,11 +1,52 @@
 <template>
-  <div><h1>空教室查询</h1></div>
+  <div>
+    <!-- 页面头部内容 -->
+    <div class="page-head">
+      <PageHeader pageHeaderContent="空教室查询"> </PageHeader>
+      <div class="stu-search">
+        <el-input placeholder="请输入内容" v-model="courseSearchInput" clearable class="input-with-select">
+          <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+      </div>
+    </div>
+    <!-- 分割线 -->
+    <el-divider></el-divider>
+  </div>
 </template>
 
 <script>
+import PageHeader from '@/components/PageHeader.vue'
 export default {
   name: 'endCourse',
+  components: {
+    PageHeader,
+  },
 }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.page-head {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+
+.el-divider--horizontal {
+  margin: 6px;
+}
+.stu-search {
+  position: absolute;
+  top: 0;
+  right: 0;
+  // float: right;
+  width: 320px;
+  height: 60px;
+  line-height: 60px;
+  padding-right: 32px;
+}
+
+.el-input-group__append button.el-button:hover {
+  color: #409eff !important;
+}
+</style>

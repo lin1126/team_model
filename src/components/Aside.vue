@@ -10,7 +10,7 @@
       <el-submenu index="2">
         <template slot="title" style="padding-left: 40px"><i class="el-icon-chat-line-round"></i>收件箱</template>
         <router-link to="/stuhomepage/infromClass"><el-menu-item index="2-1">课堂通知</el-menu-item></router-link>
-        <router-link to="/stuhomepage/message"><el-menu-item index="2-2">消息</el-menu-item></router-link>
+        <router-link to="/stuhomepage/message"><el-menu-item index="2-2">系统消息</el-menu-item></router-link>
       </el-submenu>
 
       <router-link to="/stuhomepage/classroomQuery"
