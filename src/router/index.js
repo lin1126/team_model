@@ -9,14 +9,19 @@ import InfromClass from '@/views/student/informClass.vue'
 import Message from '@/views/student/message.vue'
 import ClassroomQuery from '@/views/student/classroomQuery.vue'
 import StuInfo from '@/views/student/stuInfo.vue'
-import StuPhone from '@/views/student/stuPhone.vue'
+import StuPhoto from '@/views/student/stuPhoto.vue'
 import StuPassword from '@/views/student/stuPassword.vue'
+import Demo from '@/views/demo.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     redirect: '/login',
+  },
+  {
+    path: '/demo',
+    component: Demo,
   },
   {
     path: '/login',
@@ -63,9 +68,9 @@ const routes = [
         component: StuInfo,
       },
       {
-        path: 'stuPhone',
-        name: 'StuPhone',
-        component: StuPhone,
+        path: 'stuPhoto',
+        name: 'StuPhoto',
+        component: StuPhoto,
       },
       {
         path: 'stuPassword',

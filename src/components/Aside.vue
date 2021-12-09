@@ -20,7 +20,7 @@
       <el-submenu index="4">
         <template slot="title" style="padding-left: 40px"><i class="el-icon-user"></i>个人中心</template>
         <router-link to="/stuhomepage/stuInfo"><el-menu-item index="4-1">基本资料</el-menu-item></router-link>
-        <router-link to="/stuhomepage/stuPhone"><el-menu-item index="4-2">我的头像</el-menu-item></router-link>
+        <router-link to="/stuhomepage/stuPhoto"><el-menu-item index="4-2">我的头像</el-menu-item></router-link>
         <router-link to="/stuhomepage/stuPassword"><el-menu-item index="4-3">修改密码</el-menu-item></router-link>
       </el-submenu>
     </el-menu>
