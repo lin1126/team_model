@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// 引入路由组件
+// 引入登录部分路由组件
 import Login from '@/views/login.vue'
+// 引入学生部分路由组件
 import StuHomePage from '@/views/student/stuHomePage.vue'
 import StudyCourse from '@/views/student/studyCourse.vue'
 import EndCourse from '@/views/student/endCourse.vue'
@@ -12,6 +13,12 @@ import StuInfo from '@/views/student/stuInfo.vue'
 import StuPhoto from '@/views/student/stuPhoto.vue'
 import StuPassword from '@/views/student/stuPassword.vue'
 import Demo from '@/views/demo.vue'
+import CourseDetail from '@/views/student/courseDetail/courseDetail.vue'
+// 引入课程路由组件
+import CourseTask from '@/views/student/courseDetail/courseTask.vue'
+import CourseNotice from '@/views/student/courseDetail/courseNotice.vue'
+import CourseMessage from '@/views/student/courseDetail/courseMessage.vue'
+import CourseIntro from '@/views/student/courseDetail/courseIntro.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -76,6 +83,33 @@ const routes = [
         path: 'stuPassword',
         name: 'StuPassword',
         component: StuPassword,
+      },
+    ],
+  },
+  {
+    path: '/courseDetail',
+    name: 'CourseDetail',
+    component: CourseDetail,
+    children: [
+      {
+        name: 'coursetask',
+        path: 'coursetask',
+        component: CourseTask,
+      },
+      {
+        name: 'courseNotice',
+        path: 'courseNotice',
+        component: CourseNotice,
+      },
+      {
+        name: 'courseMessage',
+        path: 'courseMessage',
+        component: CourseMessage,
+      },
+      {
+        name: 'courseIntro',
+        path: 'courseIntro',
+        component: CourseIntro,
       },
     ],
   },

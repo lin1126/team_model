@@ -15,22 +15,24 @@
     <div class="study-contain">
       <el-row :gutter="10">
         <!-- 单个课程的盒子开始 -->
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <!-- 课程顶部图片 -->
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-            <!-- 课程名称 -->
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
+        <router-link :to="courseUrl" target="_blank">
+          <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
+            <div class="course-box">
+              <!-- 课程顶部图片 -->
+              <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
+                <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
+              </el-image>
+              <!-- 课程名称 -->
+              <div class="course-title">
+                <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
+              </div>
+              <!-- 课程日期 -->
+              <div class="course-date">2021-2022 第一学期</div>
+              <!-- 授课老师 -->
+              <div class="course-teacher">授课教师：张茹</div>
             </div>
-            <!-- 课程日期 -->
-            <div class="course-date">2021-2022 第一学期</div>
-            <!-- 授课老师 -->
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
+          </el-col>
+        </router-link>
         <!-- 单个课程的盒子结束 -->
         <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
           <div class="course-box">
@@ -75,7 +77,13 @@ export default {
     return {
       src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
       courseSearchInput: '',
+      courseId: 1001,
     }
+  },
+  computed: {
+    courseUrl: function () {
+      return '/courseDetail?courseId=' + this.courseId
+    },
   },
 }
 </script>
@@ -132,6 +140,7 @@ export default {
     height: 42px;
     padding: 0 6px;
     margin: 10px 0;
+    color: #000;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -147,6 +156,7 @@ export default {
     padding: 8px 6px;
     font-size: 14px;
     font-weight: 400;
+    color: #3e3e3e;
   }
 
   .course-teacher {

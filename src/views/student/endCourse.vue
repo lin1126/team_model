@@ -149,6 +149,7 @@ export default {
     height: 42px;
     padding: 0 6px;
     margin: 10px 0;
+    color: #000;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -164,6 +165,7 @@ export default {
     padding: 8px 6px;
     font-size: 14px;
     font-weight: 400;
+    color: #3e3e3e;
   }
 
   .course-teacher {
