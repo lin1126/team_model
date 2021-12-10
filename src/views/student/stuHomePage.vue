@@ -49,6 +49,7 @@ export default {
 }
 
 .el-main {
+  position: relative;
   min-height: 660px;
   margin: 1rem;
   padding: 10px;
