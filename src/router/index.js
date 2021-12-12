@@ -90,6 +90,7 @@ const routes = [
     path: '/courseDetail',
     name: 'CourseDetail',
     component: CourseDetail,
+    redirect: '/courseDetail/coursetask',
     children: [
       {
         name: 'coursetask',

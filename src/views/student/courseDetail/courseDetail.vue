@@ -21,8 +21,10 @@
           <el-menu-item index="/courseDetail/courseIntro">课程介绍</el-menu-item>
         </el-menu>
       </div>
-      <!-- 路由模块 -->
-      <router-view></router-view>
+      <div class="Detail-contain">
+        <!-- 路由模块 -->
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -127,12 +129,17 @@ export default {
 }
 
 .Detail-content {
-  // height: 500px;
+  min-height: 480px;
   margin: 20px 98px;
+  background-color: #fff;
 
   .el-menu-item {
     font-size: 18px;
     padding: 0 40px;
+  }
+
+  .Detail-contain {
+    padding: 14px 32px;
   }
 }
 </style>
