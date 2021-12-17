@@ -14,11 +14,17 @@ import StuPhoto from '@/views/student/stuPhoto.vue'
 import StuPassword from '@/views/student/stuPassword.vue'
 import Demo from '@/views/demo.vue'
 import CourseDetail from '@/views/student/courseDetail/courseDetail.vue'
-// 引入课程路由组件
+// 引入学生课程路由组件
 import CourseTask from '@/views/student/courseDetail/courseTask.vue'
 import CourseNotice from '@/views/student/courseDetail/courseNotice.vue'
 import CourseMessage from '@/views/student/courseDetail/courseMessage.vue'
 import CourseIntro from '@/views/student/courseDetail/courseIntro.vue'
+// 引入教师路由组件
+import TeaHome from '@/views/teacher/teaHome.vue'
+import TeaClass from '@/views/teacher/teaClass.vue'
+import TeaCourse from '@/views/teacher/teaCourse.vue'
+import TeaInfo from '@/views/teacher/teaInfo.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -111,6 +117,57 @@ const routes = [
         name: 'courseIntro',
         path: 'courseIntro',
         component: CourseIntro,
+      },
+    ],
+  },
+  {
+    path: '/teahome',
+    name: 'TeaHome',
+    component: TeaHome,
+    children: [
+      {
+        path: '/',
+        redirect: '/teahome/teacourse',
+      },
+      {
+        path: 'teacourse',
+        name: 'TeaCourse',
+        component: TeaCourse,
+      },
+      {
+        path: 'teaclass',
+        name: 'TeaClass',
+        component: TeaClass,
+      },
+      {
+        path: 'teainfo',
+        name: 'TeaInfo',
+        component: TeaInfo,
+      },
+      {
+        path: 'infromClass',
+        name: 'TeaInfromClass',
+        component: InfromClass,
+      },
+      {
+        path: 'message',
+        name: 'TeaMessage',
+        component: Message,
+      },
+      {
+        path: 'classroomQuery',
+        name: 'TeaClassroomQuery',
+        component: ClassroomQuery,
+      },
+      {
+        path: 'teaPhoto',
+        name: 'TeaPhoto',
+        component: StuPhoto,
+      },
+      {
+        path: 'teaPassword',
+        name: 'TeaPassword',
+        component: StuPassword,
       },
     ],
   },

@@ -4,7 +4,7 @@
       <el-header><Header></Header></el-header>
       <el-row>
         <el-col :xs="2" :sm="2" :md="4">
-          <div class="aside"><Aside></Aside></div>
+          <div class="aside"><TeaAside></TeaAside></div>
         </el-col>
         <el-col :xs="22" :sm="22" :md="20">
           <el-main>
@@ -19,12 +19,12 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import Aside from '@/components/Aside.vue'
+import TeaAside from '@/components/teaAside.vue'
 export default {
   name: 'stuHomePage',
   components: {
     Header,
-    Aside,
+    TeaAside,
   },
 }
 </script>
