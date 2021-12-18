@@ -5,7 +5,7 @@
       <el-submenu index="1">
         <template slot="title" style="padding-left: 40px"><i class="el-icon-reading"></i>我管理的</template>
         <router-link to="/teahome/teacourse"><el-menu-item index="1-1">教学课程 </el-menu-item></router-link>
-        <router-link to="/teahome/teaclass"><el-menu-item index="1-2">授课班级</el-menu-item></router-link>
+        <router-link to="/teahome/teaclass"><el-menu-item index="1-2">班级管理</el-menu-item></router-link>
       </el-submenu>
 
       <el-submenu index="2">
