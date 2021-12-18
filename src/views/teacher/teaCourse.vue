@@ -193,7 +193,7 @@ export default {
   },
   computed: {
     courseUrl: function () {
-      return '/courseDetail?courseId=' + this.courseId
+      return '/teacourseDetail?courseId=' + this.courseId
     },
   },
 }

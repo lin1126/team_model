@@ -24,7 +24,13 @@ import TeaHome from '@/views/teacher/teaHome.vue'
 import TeaClass from '@/views/teacher/teaClass.vue'
 import TeaCourse from '@/views/teacher/teaCourse.vue'
 import TeaInfo from '@/views/teacher/teaInfo.vue'
-
+// 引入教师课程路由组件
+import TeaCourseDetail from '@/views/teacher/teaCourseDetail/teaCourseDetail.vue'
+import TeaCourseInfo from '@/views/teacher/teaCourseDetail/teaCourseInfo.vue'
+import TeaCourseMessage from '@/views/teacher/teaCourseDetail/teaCourseMessage.vue'
+import TeaCourseNotice from '@/views/teacher/teaCourseDetail/teaCourseNotice.vue'
+import TeaCourseTask from '@/views/teacher/teaCourseDetail/teaCourseTask.vue'
+import TeaCourseControl from '@/views/teacher/teaCourseDetail/teaCourseControl.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -168,6 +174,39 @@ const routes = [
         path: 'teaPassword',
         name: 'TeaPassword',
         component: StuPassword,
+      },
+    ],
+  },
+  {
+    path: '/teacourseDetail',
+    name: 'teaCourseDetail',
+    component: TeaCourseDetail,
+    redirect: '/teacourseDetail/teacoursetask',
+    children: [
+      {
+        name: 'teacoursetask',
+        path: 'teacoursetask',
+        component: TeaCourseTask,
+      },
+      {
+        name: 'teacourseinfo',
+        path: 'teacourseinfo',
+        component: TeaCourseInfo,
+      },
+      {
+        name: 'teacoursemessage',
+        path: 'teacoursemessage',
+        component: TeaCourseMessage,
+      },
+      {
+        name: 'teacoursenotice',
+        path: 'teacoursenotice',
+        component: TeaCourseNotice,
+      },
+      {
+        name: 'teacoursecontrol',
+        path: 'teacoursecontrol',
+        component: TeaCourseControl,
       },
     ],
   },
