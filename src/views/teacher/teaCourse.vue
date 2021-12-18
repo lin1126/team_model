@@ -46,9 +46,10 @@
         <!-- 添加课程底部 -->
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogTableVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+          <el-button type="primary" @click="dialogTableVisible = false">完 成</el-button>
         </div>
       </el-dialog>
+      <!-- 添加按钮 -->
       <el-button type="primary" icon="el-icon-plus" @click="dialogTableVisible = true" round>添加课程</el-button>
     </div>
     <!-- 课程盒子部分 -->
