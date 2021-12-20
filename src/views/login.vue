@@ -19,15 +19,15 @@
         <div class="login-logo">
           <el-image style="width: 200px" :src="url[1]" fit="cover"></el-image>
         </div>
-        <el-form label-width="54px" label-position="top" :model="loginForm" style="padding: 0">
-          <el-form-item label="用户名">
-            <el-input placeholder="请输入用户名" v-model="loginForm.username"></el-input>
+        <el-form :rules="rules" ref="ruleForm" label-width="54px" label-position="top" :model="loginForm" style="padding: 0">
+          <el-form-item label="账号" prop="username">
+            <el-input placeholder="请输入账号" v-model="loginForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码">
+          <el-form-item label="密码" prop="userpwd">
             <el-input v-model="loginForm.userpwd" type="password" placeholder="请输入密码"></el-input>
           </el-form-item>
           <!-- 验证码部分开始 -->
-          <el-form-item label="验证码">
+          <el-form-item label="验证码" prop="userInputCode">
             <el-input v-model="loginForm.userInputCode" style="width: 50%" placeholder="请输入验证码"></el-input>
             <div @click="refreshCode" class="coderight">
               <identify :identifyCode="identifyCode"></identify>
@@ -51,12 +51,24 @@
 // 引入验证码组件
 import identify from '@/components/identify.vue'
 import { checkCodeofRandom } from '@/utils/codeRandom.js'
+import { login } from '@/api/login.js'
+import { setCookie } from '@/utils/cookie.js'
+
 export default {
   name: 'Login',
   components: {
     identify,
   },
   data() {
+    // 自定义表单规则，判断验证码是否正确
+    const validateCode = (rule, value, callback) => {
+      if (this.identifyCode.toUpperCase() === value.toUpperCase()) {
+        callback()
+      } else {
+        this.refreshCode()
+        callback(new Error('验证码不匹配!'))
+      }
+    }
     return {
       loginForm: {
         username: '',
@@ -65,23 +77,47 @@ export default {
       },
       identifyCode: '',
       url: [require('../assets/images/login.png'), require('../assets/images/logo.png'), require('../assets/images/cloud1.png')],
+      // 验证规则
+      rules: {
+        username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+        userpwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        userInputCode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          {
+            validator: validateCode,
+            trigger: 'blur',
+          },
+        ],
+      },
     }
   },
   methods: {
+    // 生成四位随机验证码
     refreshCode() {
       this.identifyCode = checkCodeofRandom(4)
     },
-    // 判断验证码是否正确
-    checkEqual() {
-      if (this.identifyCode.toUpperCase() === this.loginForm.userInputCode.toUpperCase()) {
-        return true
-      } else {
-        return false
-      }
-    },
     // 登录按钮事件
     loginSubmit() {
-      alert(this.checkEqual())
+      // alert(this.checkEqual())
+      this.$refs.ruleForm.validate(async (valid) => {
+        if (valid) {
+          const msg = { username: this.loginForm.username, userpwd: this.loginForm.userpwd }
+          const data = await login(msg)
+          if (parseInt(data.code) === 10000) {
+            // 设置cookie销毁时间为7天
+            setCookie('Token', data.aceessToken, 60 * 60 * 24 * 7)
+            if (data.identify === '学生') {
+              this.$router.push({ path: '/stuhomepage/studycourse' })
+            } else if (data.identify === '教师') {
+              this.$router.push({ path: '/teahome/teacourse' })
+            }
+          } else {
+            this.$message.error({
+              message: data.mes,
+            })
+          }
+        }
+      })
     },
   },
   computed: {},

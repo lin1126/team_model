@@ -20,7 +20,19 @@
 </template>
 
 <script>
-export default {}
+export default {
+  created() {
+    //   this.$request
+    //     .post('login', { username: '1631808212211d', userpwd: '212211' })
+    //     .then((res = {}) => {
+    //       console.log(res)
+    //     })
+    //     .catch((e) => {
+    //       console.log(e)
+    //       // catch 可以不要，如果想要捕获异常，就加上去
+    //     })
+  },
+}
 </script>
 
 <style lang="less" scoped>

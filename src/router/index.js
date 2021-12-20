@@ -12,7 +12,6 @@ import ClassroomQuery from '@/views/student/classroomQuery.vue'
 import StuInfo from '@/views/student/stuInfo.vue'
 import StuPhoto from '@/views/student/stuPhoto.vue'
 import StuPassword from '@/views/student/stuPassword.vue'
-import Demo from '@/views/demo.vue'
 import CourseDetail from '@/views/student/courseDetail/courseDetail.vue'
 // 引入学生课程路由组件
 import CourseTask from '@/views/student/courseDetail/courseTask.vue'
@@ -39,10 +38,6 @@ const routes = [
     redirect: '/login',
   },
   {
-    path: '/demo',
-    component: Demo,
-  },
-  {
     path: '/login',
     name: 'Login',
     component: Login,
@@ -51,6 +46,7 @@ const routes = [
     path: '/stuhomepage',
     name: 'StuHomePage',
     component: StuHomePage,
+    meta: { role: '学生' },
     children: [
       {
         path: '/',
@@ -60,41 +56,49 @@ const routes = [
         path: 'studycourse',
         name: 'StudyCourse',
         component: StudyCourse,
+        meta: { role: '学生' },
       },
       {
         path: 'endcourse',
         name: 'EndCourse',
         component: EndCourse,
+        meta: { role: '学生' },
       },
       {
         path: 'infromClass',
         name: 'InfromClass',
         component: InfromClass,
+        meta: { role: '学生' },
       },
       {
         path: 'message',
         name: 'Message',
         component: Message,
+        meta: { role: '学生' },
       },
       {
         path: 'classroomQuery',
         name: 'ClassroomQuery',
         component: ClassroomQuery,
+        meta: { role: '学生' },
       },
       {
         path: 'stuInfo',
         name: 'StuInfo',
         component: StuInfo,
+        meta: { role: '学生' },
       },
       {
         path: 'stuPhoto',
         name: 'StuPhoto',
         component: StuPhoto,
+        meta: { role: '学生' },
       },
       {
         path: 'stuPassword',
         name: 'StuPassword',
         component: StuPassword,
+        meta: { role: '学生' },
       },
     ],
   },
@@ -103,26 +107,31 @@ const routes = [
     name: 'CourseDetail',
     component: CourseDetail,
     redirect: '/courseDetail/coursetask',
+    meta: { role: '学生' },
     children: [
       {
         name: 'coursetask',
         path: 'coursetask',
         component: CourseTask,
+        meta: { role: '学生' },
       },
       {
         name: 'courseNotice',
         path: 'courseNotice',
         component: CourseNotice,
+        meta: { role: '学生' },
       },
       {
         name: 'courseMessage',
         path: 'courseMessage',
         component: CourseMessage,
+        meta: { role: '学生' },
       },
       {
         name: 'courseIntro',
         path: 'courseIntro',
         component: CourseIntro,
+        meta: { role: '学生' },
       },
     ],
   },
@@ -130,6 +139,7 @@ const routes = [
     path: '/teahome',
     name: 'TeaHome',
     component: TeaHome,
+    meta: { role: '教师' },
     children: [
       {
         path: '/',
@@ -139,41 +149,49 @@ const routes = [
         path: 'teacourse',
         name: 'TeaCourse',
         component: TeaCourse,
+        meta: { role: '教师' },
       },
       {
         path: 'teaclass',
         name: 'TeaClass',
         component: TeaClass,
+        meta: { role: '教师' },
       },
       {
         path: 'teainfo',
         name: 'TeaInfo',
         component: TeaInfo,
+        meta: { role: '教师' },
       },
       {
         path: 'infromClass',
         name: 'TeaInfromClass',
         component: InfromClass,
+        meta: { role: '教师' },
       },
       {
         path: 'message',
         name: 'TeaMessage',
         component: Message,
+        meta: { role: '教师' },
       },
       {
         path: 'classroomQuery',
         name: 'TeaClassroomQuery',
         component: ClassroomQuery,
+        meta: { role: '教师' },
       },
       {
         path: 'teaPhoto',
         name: 'TeaPhoto',
         component: StuPhoto,
+        meta: { role: '教师' },
       },
       {
         path: 'teaPassword',
         name: 'TeaPassword',
         component: StuPassword,
+        meta: { role: '教师' },
       },
     ],
   },
@@ -182,31 +200,37 @@ const routes = [
     name: 'teaCourseDetail',
     component: TeaCourseDetail,
     redirect: '/teacourseDetail/teacoursetask',
+    meta: { role: '教师' },
     children: [
       {
         name: 'teacoursetask',
         path: 'teacoursetask',
         component: TeaCourseTask,
+        meta: { role: '教师' },
       },
       {
         name: 'teacourseinfo',
         path: 'teacourseinfo',
         component: TeaCourseInfo,
+        meta: { role: '教师' },
       },
       {
         name: 'teacoursemessage',
         path: 'teacoursemessage',
         component: TeaCourseMessage,
+        meta: { role: '教师' },
       },
       {
         name: 'teacoursenotice',
         path: 'teacoursenotice',
         component: TeaCourseNotice,
+        meta: { role: '教师' },
       },
       {
         name: 'teacoursecontrol',
         path: 'teacoursecontrol',
         component: TeaCourseControl,
+        meta: { role: '教师' },
       },
     ],
   },
