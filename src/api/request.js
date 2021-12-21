@@ -12,8 +12,11 @@ function request(url, params, method) {
       method,
       ...data,
     })
-      .then((res) => {})
+      .then((res) => {
+        resolve(res)
+      })
       .catch((error) => {
+        reject(error)
         console.log(error)
       })
   })

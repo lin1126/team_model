@@ -8,8 +8,8 @@ import cssInit from '@/assets/normalize.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 引入封装好的axios
-import request from '@/api/service.js'
-// 引入过去cookie的函数
+import request from '@/api/request.js'
+// 引入获取cookie的函数
 import { getCookie } from '@/utils/cookie.js'
 // 引入ajax
 // 设置为全局下利用$request就可以调用
@@ -30,9 +30,13 @@ router.beforeEach(async (to, from, next) => {
         path: '/login',
       })
     } else {
-      const mes = await request.post('/login/verify', { token: '' + token })
+      // 如果有cookie的话，验证cookie有效性，并获取此用户信息
+      const mes = await request.get('/login/getinfo', {})
       if (mes.isValid) {
-        store.commit('SET_ROLE', mes.identify)
+        // 在vuex中存入身份和id
+        store.commit('SET_ROLE', mes.info[0].identity)
+        store.commit('SET_ID', mes.info[0].ID)
+        store.commit('SET_INTRODUCTION', mes.info[0])
         if (to.meta.role === store.state.role) {
           next()
         } else {

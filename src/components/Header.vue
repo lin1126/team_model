@@ -3,17 +3,19 @@
     <el-row>
       <!-- logo部分 -->
       <el-col :md="4">
-        <div class="logo"><el-image fit="contain" style="height: 3rem" :src="url[0]"></el-image></div>
+        <a :href="role == '学生' ? '/#/stuhomepage/studycourse' : '/#/teaHome'">
+          <div class="logo"><el-image fit="contain" style="height: 3rem" :src="url[0]"></el-image></div>
+        </a>
       </el-col>
       <el-col :md="{ span: 6, offset: 14 }">
         <!-- 首页头部右边部分 -->
         <div class="header-right">
-          <!-- 设置图标部分 -->
-          <span class="header-right-icon"><i class="el-icon-setting icon-hover"></i></span>
           <!-- 消息通知部分 -->
           <span class="header-right-icon header-right-notice">
-            <el-badge is-dot class="el-icon-bell bell-icon-hover">
-              <!-- 鼠标悬浮时出现的div -->
+            <!-- 通知图标 -->
+            <span style="position: relative">
+              <span @click="noticeClick"><el-badge is-dot class="el-icon-bell bell-icon-hover icon-hover zIndex"> </el-badge></span>
+              <!-- 点击通知图标时出现的盒子 -->
               <transition name="el-fade-in">
                 <div class="floatNotice stophover" v-show="showNotice">
                   <!-- 悬浮消息通知选项卡部分 -->
@@ -47,18 +49,19 @@
                   </div>
                 </div>
               </transition>
-            </el-badge>
+            </span>
           </span>
 
           <span class="header-right-icon">
-            <el-avatar class="header-right-avatar" shape="circle" size="medium" :src="url[1]"> </el-avatar>
+            <!-- 用户头像部分 -->
+            <el-avatar class="header-right-avatar" shape="circle" size="medium" :src="this.introduction.photo"> </el-avatar>
             <!-- 显示用户名部分 -->
             <span class="header-right-username icon-hover">
               <el-dropdown>
-                <span class="el-dropdown-link icon-hover">林成俊<i class="el-icon-arrow-down el-icon--right"></i> </span>
+                <span class="el-dropdown-link icon-hover">{{ this.introduction.name }}<i class="el-icon-arrow-down el-icon--right"></i> </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>个人中心</el-dropdown-item>
-                  <el-dropdown-item>注销</el-dropdown-item>
+                  <router-link to="/stuhomepage/stuInfo"><el-dropdown-item>个人中心</el-dropdown-item></router-link>
+                  <router-link to="/login"><el-dropdown-item>注销</el-dropdown-item></router-link>
                 </el-dropdown-menu>
               </el-dropdown>
             </span>
@@ -70,14 +73,26 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Header',
   data() {
     return {
-      url: [require('../assets/images/logo.png'), 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'],
+      url: [require('../assets/images/logo.png')],
       activeName: 'first',
       showNotice: false,
     }
+  },
+  methods: {
+    noticeClick() {
+      this.showNotice = !this.showNotice
+    },
+  },
+  computed: {
+    ...mapState(['role', 'introduction']),
+  },
+  created() {
+    console.log(this.introduction)
   },
 }
 </script>
@@ -96,13 +111,16 @@ export default {
   font-size: 20px;
   .header-right-icon {
     margin: 0 10px;
+
     .icon-hover {
       cursor: pointer;
+      z-index: 999;
     }
     .icon-hover:hover,
     .bell-icon-hover:hover {
       color: #f56c6c;
     }
+
     .bell-icon-hover:hover .floatNotice {
       color: #000;
     }
@@ -116,9 +134,10 @@ export default {
     }
     // 悬浮消息通知选项卡
     .floatNotice {
+      z-index: 99;
       position: absolute;
-      top: 30px;
-      right: -6px;
+      top: 34px;
+      right: 0px;
       width: 420px;
       min-height: 120px;
       padding: 10px 16px;
@@ -126,7 +145,7 @@ export default {
       border: 2px solid #e7e7e7;
       border-radius: 6px;
       box-shadow: inset 0 0 6px #e7e7e7;
-
+      line-height: 1.5;
       .el-tab-pane {
         padding: 0 16px;
       }
@@ -160,6 +179,7 @@ export default {
         .floatNotice-bottom-all {
           flex: 1;
           text-align: center;
+          cursor: pointer;
 
           .el-icon-thumb,
           .el-icon-view {

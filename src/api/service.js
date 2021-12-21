@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { Message, Loading } from 'element-ui'
+// 引入过去cookie的函数
+import { getCookie } from '@/utils/cookie.js'
+
 // const configBaseURL = 'http://39.105.106.13:3000/api/'
 const configBaseURL = 'http://127.0.0.1:3000/api/'
 let loadingInstance = null
@@ -21,6 +24,11 @@ Service.interceptors.request.use((config) => {
     lock: true,
     text: '拼命加载中',
   })
+  // 添加token头部
+  const token = getCookie('Token')
+  if (token) {
+    config.headers.authorization = token // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+  }
   return config
 })
 // 添加响应拦截器
