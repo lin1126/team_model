@@ -15,52 +15,24 @@
     <div class="study-contain">
       <el-row :gutter="10">
         <!-- 单个课程的盒子开始 -->
-        <router-link :to="courseUrl" target="_blank">
+        <router-link :to="courseUrl" target="_blank" v-for="item in courseData" :key="item.courseDetail[0].courseID">
           <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
             <div class="course-box">
               <!-- 课程顶部图片 -->
-              <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
+              <el-image :src="item.courseDetail[0].Photo" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
                 <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
               </el-image>
               <!-- 课程名称 -->
               <div class="course-title">
-                <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
+                <h3>{{ item.courseDetail[0].name }}</h3>
               </div>
               <!-- 课程日期 -->
-              <div class="course-date">2021-2022 第一学期</div>
+              <div class="course-date">{{ item.courseDetail[0].year }}</div>
               <!-- 授课老师 -->
-              <div class="course-teacher">授课教师：张茹</div>
+              <div class="course-teacher">授课教师： {{ item.teacherName }}</div>
             </div>
           </el-col>
         </router-link>
-        <!-- 单个课程的盒子结束 -->
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
-            </div>
-            <div class="course-date">2021-2022 第一学期</div>
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
-            </div>
-            <div class="course-date">2021-2022 第一学期</div>
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <!-- 第二行 -->
       </el-row>
     </div>
   </div>
@@ -68,6 +40,7 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
+import { getCourse } from '@/api/student/studyCourse.js'
 export default {
   name: 'studyCourse',
   components: {
@@ -75,10 +48,26 @@ export default {
   },
   data() {
     return {
-      src: 'http://39.105.106.13:9999/stuphoto/cousephoto.png',
       courseSearchInput: '',
       courseId: 1001,
+      courseData: '',
     }
+  },
+  methods: {
+    async getCourseAjax() {
+      const res = { _id: this.$store.state.id }
+      const data = await getCourse(res)
+      const cdata = data.filter(myFunction)
+      // 提取出正在进行中的课程
+      function myFunction(value, index, array) {
+        return value.courseDetail[0].state === 'underway'
+      }
+      console.log(cdata)
+      this.courseData = cdata
+    },
+  },
+  created() {
+    this.getCourseAjax()
   },
   computed: {
     courseUrl: function () {
