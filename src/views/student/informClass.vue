@@ -17,26 +17,30 @@
       <!-- 课堂通知头部导航栏部分 -->
       <div class="notify-tab">
         <div class="notify-checkAll" v-show="checkboxShow">
-          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll">全选</el-checkbox>
+          <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
           &nbsp;&nbsp;
           <span>
-            已选: <span class="notify-selected">{{ this.courseSelectNumber }}</span>
+            已选: <span class="notify-selected">{{ this.checkedCities.length }}</span>
           </span>
           &nbsp;&nbsp;
-          <el-link type="danger" icon="el-icon-delete" :underline="false">删除</el-link>
+          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除选中的通知？">
+            <el-link slot="reference" type="danger" icon="el-icon-delete" :underline="false">全部删除</el-link>
+          </el-popconfirm>
         </div>
-        <div class="notify-operate"><el-link type="primary" icon="el-icon-edit" :underline="false">批量编辑</el-link></div>
+        <div class="notify-operate" @click="checkboxShow = !checkboxShow"><el-link type="primary" icon="el-icon-edit" :underline="false">批量编辑</el-link></div>
         <div class="notify-read">
-          <el-link type="primary" :underline="false"><i class="el-icon-view el-icon--left"></i>一键已读 </el-link>
+          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-question" icon-color="#ff9900" title="是否将所有消息设为已读？">
+            <el-link slot="reference" type="primary" :underline="false"><i class="el-icon-view el-icon--left"></i>一键已读 </el-link>
+          </el-popconfirm>
         </div>
       </div>
-      <el-checkbox-group v-model="checkedCities">
+      <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
         <!-- 课堂通知盒子部分 -->
         <div class="notify-card">
           <!-- 实现手风琴效果 -->
           <el-collapse accordion>
             <!-- 单个盒子 -->
-            <el-collapse-item>
+            <el-collapse-item v-for="item in data" :key="item._id">
               <template slot="title">
                 <!-- 通知卡片头部 -->
                 <div class="notify-card-header">
@@ -44,33 +48,38 @@
                   <div class="notify-title">
                     <!-- 多选框按钮,点击批量编辑时显示 -->
                     <div class="notify-checkbox">
-                      <el-checkbox label="1" v-show="checkboxShow">&nbsp;</el-checkbox>
+                      <el-checkbox :label="item._id" v-show="checkboxShow">&nbsp;</el-checkbox>
                     </div>
-                    <el-badge is-dot class="item">
+                    <el-badge :is-dot="item.State == 'true' ? false : true" class="item">
                       <div class="notify-icon"><i class="el-icon-bell"></i></div>
                     </el-badge>
-                    &nbsp;<span>课堂通知</span>
+                    &nbsp;<span>{{ item.type }}</span>
                   </div>
                   <!-- 通知的发布课程 -->
                   <div class="notify-from">
                     <span class="notify-tip"> 来自：</span>
-                    <a href="#"><span class="notify-author">物联网工程导论</span></a>
+                    <a href="#"
+                      ><span class="notify-author">{{ item.courseName }}</span></a
+                    >
                   </div>
                   <!-- 鼠标移动时的操作模块 -->
-                  <div class="notify-del">删除</div>
+                  <div class="notify-del" @click="eventFn($event)">
+                    <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除该通知？">
+                      <el-link slot="reference" :underline="false">删除</el-link>
+                    </el-popconfirm>
+                  </div>
                 </div>
               </template>
               <!-- 通知内容主体 -->
               <div class="notify-content">
                 <div class="notify-tip">通知内容：</div>
                 <span class="notify-contain">
-                  亲们，我们的课程成绩已全部录入到教学系统中。大家可以在教学系统中查询成绩了。 如果你感觉本课程还不错的话，敬请在学校教务系统的评价中给予100分评价，这也是对老师的最大鼓励了。 感谢这一个学期以来的陪伴。
-                  如果你觉得老师有需要改进的地方，请直接回复本条通知，或在QQ上和我反馈（Q号：1105459082）。 下学期欢迎选修我的其他课程。有任何疑问，欢迎随时联系。再次感谢。我会想念大家的。
+                  {{ item.notice }}
                 </span>
               </div>
               <div class="notify-content-bottom">
                 <span class="notify-tip">发布时间：</span>
-                <span class="notify-date">2021-06-23 19:52:52</span>
+                <span class="notify-date">{{ TimeFormat(item.Time) }}</span>
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -82,21 +91,57 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
-
+import { getCourse } from '@/api/student/informClass.js'
+import { formatTime } from '@/utils/formatTime.js'
 export default {
   name: 'informClass',
   components: {
     PageHeader,
   },
+  created() {
+    // 获取课程公告消息
+    this.getCourseNotice()
+  },
   data() {
     return {
       courseSearchInput: '',
       isIndeterminate: true,
-      checkedCities: ['1'],
-      checkboxShow: true,
-      courseSelectNumber: 2,
+      // 选中的选项
+      checkedCities: [],
+      checkboxShow: false,
+      checkAll: false,
+      // 全部选项
+      cities: [],
+      data: '',
     }
   },
+  methods: {
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? this.cities : []
+      this.isIndeterminate = false
+    },
+    handleCheckedCitiesChange(value) {
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.cities.length
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
+    },
+    async getCourseNotice() {
+      const req = { _id: this.$store.state.id, _page: '', _limit: '' }
+      const data = await getCourse(req)
+      data.forEach((value) => {
+        this.cities.push(value._id)
+      })
+      this.data = data
+    },
+    TimeFormat(data) {
+      return formatTime(data)
+    },
+    // 阻止冒泡行为
+    eventFn(e) {
+      e.stopPropagation()
+    },
+  },
+  computed: {},
 }
 </script>
 

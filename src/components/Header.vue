@@ -19,7 +19,8 @@
               <transition name="el-fade-in">
                 <div class="floatNotice stophover" v-show="showNotice">
                   <!-- 悬浮消息通知选项卡部分 -->
-                  <el-tabs v-model="activeName" @tab-click="handleClick" stretch="true">
+                  <!-- <el-tabs v-model="activeName" @tab-click="handleClick" stretch="true">-->
+                  <el-tabs v-model="activeName">
                     <el-tab-pane label="全部" name="first">
                       <!-- 悬浮消息通知全部选项卡内容部分 -->
                       <div v-for="o in 4" :key="o" class="text item">
@@ -91,9 +92,7 @@ export default {
   computed: {
     ...mapState(['role', 'introduction']),
   },
-  created() {
-    console.log(this.introduction)
-  },
+  created() {},
 }
 </script>
 

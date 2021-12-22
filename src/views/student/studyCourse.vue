@@ -62,7 +62,6 @@ export default {
       function myFunction(value, index, array) {
         return value.courseDetail[0].state === 'underway'
       }
-      console.log(cdata)
       this.courseData = cdata
     },
   },
