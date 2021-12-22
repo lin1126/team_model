@@ -20,8 +20,10 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 // 路由全局守卫，判断是否登录和权限是否足够
 router.beforeEach(async (to, from, next) => {
+  const token = getCookie('Token')
+  // 如果有cookie的话，验证cookie有效性，并获取此用户信息
+  const mes = await request.get('/login/getinfo', {})
   if (to.path !== '/login') {
-    const token = getCookie('Token')
     if (!token) {
       ElementUI.Message.error({
         message: '您未登录，请重新登录',
@@ -30,8 +32,6 @@ router.beforeEach(async (to, from, next) => {
         path: '/login',
       })
     } else {
-      // 如果有cookie的话，验证cookie有效性，并获取此用户信息
-      const mes = await request.get('/login/getinfo', {})
       if (mes.isValid) {
         // 在vuex中存入身份和id
         store.commit('SET_ROLE', mes.info[0].identity)
@@ -58,6 +58,13 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
+    if (mes.isValid) {
+      if (mes.info[0].identity === '学生') {
+        next('/stuhomepage/studycourse')
+      } else if (mes.info[0].identity === '教师') {
+        next('/teaHome')
+      }
+    }
     next()
   }
 })
