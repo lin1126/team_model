@@ -39,9 +39,9 @@ Service.interceptors.response.use(
   },
   (error) => {
     console.log('TCL: error', error)
-    const msg = error.Message !== undefined ? error.Message : ''
+    const msg = error.Message !== undefined ? error.Message : '请稍后重试'
     Message({
-      message: '网络错误' + msg,
+      message: '网络错误,' + msg,
       type: 'error',
       duration: 3 * 1000,
     })
