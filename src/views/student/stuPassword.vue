@@ -29,6 +29,8 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
+import { updatePwd } from '@/api/student/stuPassword.js'
+
 export default {
   name: 'endCourse',
   components: {
@@ -71,15 +73,25 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          this.updatePassword()
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    async updatePassword() {
+      const doc = await updatePwd(this.$store.state.id, this.ruleForm.oldpass, this.ruleForm.pass)
+      if (!doc.isTrue) {
+        this.$message.error(doc.msg)
+      } else if (doc.isTrue) {
+        this.$message({
+          message: doc.msg,
+          type: 'success',
+        })
+      }
     },
   },
 }
