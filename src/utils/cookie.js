@@ -19,3 +19,8 @@ export function getCookie(cname) {
   }
   return false
 }
+
+// 删除cookie值
+export function delCookie(key) {
+  setCookie(key, ' ', -1)
+}

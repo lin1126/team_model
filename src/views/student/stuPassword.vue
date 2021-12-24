@@ -30,7 +30,7 @@
 <script>
 import PageHeader from '@/components/PageHeader.vue'
 import { updatePwd } from '@/api/student/stuPassword.js'
-
+import { delCookie } from '@/utils/cookie.js'
 export default {
   name: 'endCourse',
   components: {
@@ -88,9 +88,12 @@ export default {
         this.$message.error(doc.msg)
       } else if (doc.isTrue) {
         this.$message({
-          message: doc.msg,
+          message: '修改密码成功，请重新登录！',
           type: 'success',
         })
+        // 密码修改成功时，删除cookie值并重新登录
+        delCookie('Token')
+        this.$router.push('/login')
       }
     },
   },
