@@ -11,23 +11,37 @@
       <div class="stu-info-photo-content">
         <!-- 上传头像部分 -->
         <div class="stu-info-upload">
-          <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+          <el-upload
+            ref="upload"
+            class="avatar-uploader"
+            action="http://127.0.0.1:3000/api/student/updateImage"
+            :headers="{ authorization: Token }"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :on-change="handleAvatarProgress"
+            :auto-upload="false"
+            :limit="1"
+            :disabled="isImage"
+          >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+          <div class="clearImage" @click="handleAvatarLimit"><el-link type="primary" :underline="false">清除已选图片</el-link></div>
         </div>
         <!-- 当前头像部分 -->
         <div class="stu-info-nowPhoto">
           <div class="stu-info-pic">
-            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" style="width: 98px; height: 98px"> </el-avatar>
+            <el-avatar v-if="!imageUrl" :src="this.introduction.photo" style="width: 98px; height: 98px"> </el-avatar>
+            <el-avatar v-show="imageUrl" :src="imageUrl" style="width: 98px; height: 98px"> </el-avatar>
             <p>当前头像</p>
           </div>
         </div>
       </div>
-      <P class="stu-info-tips">请选择图片上传：大小180 * 180像素支持JPG、PNG等格式，图片需小于2M</P>
+      <P class="stu-info-tips">请选择图片上传：推荐大小为180 * 180像素，支持JPG、PNG等格式，图片需小于3M</P>
       <!-- 底部保存头像按钮  -->
       <div class="stu-info-photo-footer">
-        <el-button type="primary" plain>保存头像</el-button>
+        <el-button type="primary" plain @click="submitUpload">保存头像</el-button>
       </div>
     </div>
   </div>
@@ -35,10 +49,69 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
+import { getCookie } from '@/utils/cookie.js'
+import { mapState } from 'vuex'
+var isLt2M = ''
 export default {
   name: 'endCourse',
   components: {
     PageHeader,
+  },
+  created() {
+    this.Token = getCookie('Token')
+  },
+  data() {
+    return {
+      Token: '',
+      imageUrl: '',
+    }
+  },
+
+  methods: {
+    // 上传成功回调函数
+    handleAvatarSuccess(res, file) {
+      if (res.isValid) {
+        this.$store.state.introduction.photo = res.path
+        this.$message({
+          showClose: true,
+          message: '保存头像成功',
+          type: 'success',
+        })
+      } else {
+        this.$message.error('身份验证失败')
+      }
+    },
+    // 上传图像时的回调函数
+    beforeAvatarUpload(file) {
+      return isLt2M
+    },
+    // 保存头像触发上传事件
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    handleAvatarProgress(res, file) {
+      isLt2M = file[0].size / 1024 / 1024 < 2
+      console.log(file[0].size)
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+        this.$refs.upload.clearFiles()
+      } else {
+        this.imageUrl = URL.createObjectURL(file[0].raw)
+      }
+    },
+    handleAvatarLimit() {
+      this.$refs.upload.clearFiles()
+      this.imageUrl = ''
+    },
+  },
+  computed: {
+    ...mapState(['introduction']),
+    isImage() {
+      if (this.imageUrl === '') {
+        return false
+      }
+      return true
+    },
   },
 }
 </script>
@@ -96,6 +169,11 @@ export default {
       width: 178px;
       height: 178px;
       display: block;
+    }
+    .clearImage {
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
     }
   }
 
