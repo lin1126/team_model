@@ -1,5 +1,13 @@
 <template>
   <div>
+    <!-- 登录注销提醒框 -->
+    <el-dialog title="警告 " :visible.sync="dialogVisible" width="30%" :modal="false">
+      <span>是否注销该账号的登录？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="exitLogin">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-row>
       <!-- logo部分 -->
       <el-col :md="4">
@@ -62,7 +70,7 @@
                 <span class="el-dropdown-link icon-hover">{{ this.introduction.name }}<i class="el-icon-arrow-down el-icon--right"></i> </span>
                 <el-dropdown-menu slot="dropdown">
                   <router-link to="/stuhomepage/stuInfo"><el-dropdown-item>个人中心</el-dropdown-item></router-link>
-                  <router-link to="/login"><el-dropdown-item>注销</el-dropdown-item></router-link>
+                  <span @click="dialogVisible = true"><el-dropdown-item>注销</el-dropdown-item></span>
                 </el-dropdown-menu>
               </el-dropdown>
             </span>
@@ -75,6 +83,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { delCookie } from '@/utils/cookie.js'
 export default {
   name: 'Header',
   data() {
@@ -82,11 +91,16 @@ export default {
       url: [require('../assets/images/logo.png')],
       activeName: 'first',
       showNotice: false,
+      dialogVisible: false,
     }
   },
   methods: {
     noticeClick() {
       this.showNotice = !this.showNotice
+    },
+    exitLogin() {
+      delCookie('Token')
+      this.$router.push('/login')
     },
   },
   computed: {
