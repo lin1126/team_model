@@ -19,7 +19,7 @@
         <div class="login-logo">
           <el-image style="width: 200px" :src="url[1]" fit="cover"></el-image>
         </div>
-        <el-form :rules="rules" ref="ruleForm" label-width="54px" label-position="top" :model="loginForm" style="padding: 0">
+        <el-form :rules="rules" ref="ruleForm" label-width="54px" label-position="top" :model="loginForm" style="padding: 0" @keydown.enter.native="loginSubmit">
           <el-form-item label="账号" prop="username">
             <el-input placeholder="请输入账号" v-model="loginForm.username"></el-input>
           </el-form-item>
