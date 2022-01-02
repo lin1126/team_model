@@ -23,27 +23,29 @@
             已选: <span class="notify-selected">{{ this.checkedCities.length }}</span>
           </span>
           &nbsp;&nbsp;
-          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除选中的通知？">
+          <el-popconfirm @confirm="delAllNotice()" confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除选中的通知？">
             <el-link slot="reference" type="danger" icon="el-icon-delete" :underline="false">全部删除</el-link>
           </el-popconfirm>
         </div>
         <div class="notify-operate" @click="checkboxShow = !checkboxShow"><el-link type="primary" icon="el-icon-edit" :underline="false">批量编辑</el-link></div>
         <div class="notify-read">
-          <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-question" icon-color="#ff9900" title="是否将所有消息设为已读？">
+          <el-popconfirm @confirm="readAll()" confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-question" icon-color="#ff9900" title="是否将所有通知设为已读？">
             <el-link slot="reference" type="primary" :underline="false"><i class="el-icon-view el-icon--left"></i>一键已读 </el-link>
           </el-popconfirm>
         </div>
       </div>
+      <el-empty description="暂无通知" v-if="this.data.length == 0"></el-empty>
+      <!-- 各个多选按钮组合 -->
       <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
         <!-- 课堂通知盒子部分 -->
         <div class="notify-card">
           <!-- 实现手风琴效果 -->
           <el-collapse accordion>
-            <!-- 单个盒子 -->
+            <!--  单条通知开始 -->
             <el-collapse-item v-for="item in data" :key="item._id">
               <template slot="title">
                 <!-- 通知卡片头部 -->
-                <div class="notify-card-header">
+                <div class="notify-card-header" @click="readNotice(item)">
                   <!-- 通知的标题 -->
                   <div class="notify-title">
                     <!-- 多选框按钮,点击批量编辑时显示 -->
@@ -64,7 +66,7 @@
                   </div>
                   <!-- 鼠标移动时的操作模块 -->
                   <div class="notify-del" @click="eventFn($event)">
-                    <el-popconfirm confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除该通知？">
+                    <el-popconfirm @confirm="delNotice(item._id)" confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除该通知？">
                       <el-link slot="reference" :underline="false">删除</el-link>
                     </el-popconfirm>
                   </div>
@@ -77,11 +79,13 @@
                   {{ item.notice }}
                 </span>
               </div>
+
               <div class="notify-content-bottom">
                 <span class="notify-tip">发布时间：</span>
                 <span class="notify-date">{{ TimeFormat(item.Time) }}</span>
               </div>
             </el-collapse-item>
+            <!-- 单条通知结束 -->
           </el-collapse>
         </div>
       </el-checkbox-group>
@@ -91,7 +95,7 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
-import { getCourse } from '@/api/student/informClass.js'
+import { getCourse, readCourseNotice, readAllCourseNotice, delCourseNotice, delCheckedNotice } from '@/api/student/informClass.js'
 import { formatTime } from '@/utils/formatTime.js'
 export default {
   name: 'informClass',
@@ -133,6 +137,45 @@ export default {
       })
       this.data = data
     },
+    // 点击通知时，将状态修改为已读
+    async readNotice(item) {
+      if (item.State === 'false') {
+        const data = await readCourseNotice(item._id)
+        if (data === 'OK') {
+          item.State = 'true'
+        }
+      }
+    },
+    // 一键已读
+    async readAll() {
+      const data = await readAllCourseNotice(this.$store.state.id)
+      if (data === 'OK') {
+        this.data.forEach((item) => {
+          if (item.State === 'false') {
+            item.State = 'true'
+          }
+        })
+      }
+    },
+    // 删除一条通知
+    async delNotice(id) {
+      const data = await delCourseNotice(id)
+      if (data === 'OK') {
+        this.getCourseNotice()
+      }
+    },
+    // 删除所有选中的通知
+    async delAllNotice() {
+      if (this.checkedCities.length === 0) {
+        return
+      }
+      const data = await delCheckedNotice(this.checkedCities)
+      if (data === 'OK') {
+        this.data = ''
+        this.checkedCities = []
+      }
+    },
+    // 格式化时间
     TimeFormat(data) {
       return formatTime(data)
     },
@@ -174,6 +217,9 @@ export default {
 .notification-content {
   padding: 10px 16px;
 
+  .el-empty {
+    width: 100%;
+  }
   .notify-tab {
     width: 100%;
     height: 48px;
