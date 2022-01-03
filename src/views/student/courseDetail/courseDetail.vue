@@ -7,7 +7,7 @@
       <h2 class="course-class">{{ couseTable.class }}</h2>
       <p class="course-number">已有48人加入本课程</p>
       <div class="course-pic">
-        <el-image style="width: 240px; height: 180px" :src="url" :fit="fill"></el-image>
+        <el-image style="width: 240px; height: 180px" :src="couseTable.Photo" :fit="fill"></el-image>
         <p class="course-evaluate"><a :href="'/#/courseDetail/courseMessage?courseId=' + this.courseID">课程留言</a></p>
       </div>
     </div>
@@ -39,7 +39,6 @@ export default {
   },
   data() {
     return {
-      url: require('@/assets/images/detailTop.jpg'),
       activeIndex: '/courseDetail/courseTask',
       courseID: '',
       couseTable: {},
