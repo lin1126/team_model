@@ -8,7 +8,7 @@
       <p class="course-number">已有48人加入本课程</p>
       <div class="course-pic">
         <el-image style="width: 240px; height: 180px" :src="url" :fit="fill"></el-image>
-        <p class="course-evaluate">课程留言</p>
+        <p class="course-evaluate"><a :href="'/#/courseDetail/courseMessage?courseId=' + this.courseID">课程留言</a></p>
       </div>
     </div>
     <!-- 课程详细部分主体 -->
@@ -131,11 +131,13 @@ export default {
       height: 32px;
       line-height: 32px;
       margin: 0;
-      color: #79bbff;
       text-align: center;
       border-bottom-right-radius: 14px;
       border-bottom-left-radius: 14px;
       background: rgba(84, 79, 79, 0.7);
+    }
+    .course-evaluate > a {
+      color: #79bbff;
     }
   }
 
