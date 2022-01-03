@@ -1,5 +1,5 @@
 import request from '@/api/request.js'
-// 获取课程列表
+// 获取课程通知列表
 export function getCourse(data) {
   return request.get('/notice/getNotice', data)
 }

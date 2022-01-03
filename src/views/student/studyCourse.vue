@@ -15,7 +15,7 @@
     <div class="study-contain">
       <el-row :gutter="10">
         <!-- 单个课程的盒子开始 -->
-        <router-link :to="courseUrl" target="_blank" v-for="item in courseData" :key="item.courseDetail[0].courseID">
+        <router-link v-for="item in courseData" :key="item.courseDetail[0].courseID" :to="'/courseDetail?courseId=' + item.courseDetail[0].courseID" target="_blank">
           <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
             <div class="course-box">
               <!-- 课程顶部图片 -->
@@ -54,6 +54,7 @@ export default {
     }
   },
   methods: {
+    // 获取课程信息
     async getCourseAjax() {
       const res = { _id: this.$store.state.id }
       const data = await getCourse(res)
@@ -67,11 +68,6 @@ export default {
   },
   created() {
     this.getCourseAjax()
-  },
-  computed: {
-    courseUrl: function () {
-      return '/courseDetail?courseId=' + this.courseId
-    },
   },
 }
 </script>

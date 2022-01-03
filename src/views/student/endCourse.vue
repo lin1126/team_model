@@ -15,7 +15,7 @@
     <div class="study-contain">
       <el-row :gutter="10">
         <!-- 单个课程的盒子开始 -->
-        <router-link :to="courseUrl" target="_blank" v-for="item in courseData" :key="item.courseDetail[0].courseID">
+        <router-link v-for="item in courseData" :key="item.courseDetail[0].courseID" :to="'/courseDetail?courseId=' + item.courseDetail[0].courseID" target="_blank">
           <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
             <div class="course-box">
               <!-- 遮蔽图层  -->
@@ -71,11 +71,6 @@ export default {
   },
   created() {
     this.getCourseAjax()
-  },
-  computed: {
-    courseUrl: function () {
-      return '/courseDetail?courseId=' + this.courseId
-    },
   },
 }
 </script>

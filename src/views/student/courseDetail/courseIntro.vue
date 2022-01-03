@@ -9,7 +9,7 @@
           <el-input v-model="couseTable.class" disabled></el-input>
         </el-form-item>
         <el-form-item label="学年-学期">
-          <el-input v-model="couseTable.time" disabled></el-input>
+          <el-input v-model="couseTable.year" disabled></el-input>
         </el-form-item>
         <el-form-item label="所属机构">
           <el-input v-model="couseTable.organization" disabled></el-input>
@@ -20,16 +20,33 @@
 </template>
 
 <script>
+import { getCourseDetail } from '@/api/student/courseDetail/courseIntro.js'
 export default {
+  created() {
+    this.getURl()
+  },
+  mounted() {
+    this.getCourse()
+  },
   data() {
     return {
-      couseTable: {
-        name: '物联网控制技术与应用',
-        class: '18物联网工程1、2班',
-        time: '2020-2021 第二学期',
-        organization: '福建江夏学院电子信息科学学院物联网研究部',
-      },
+      couseTable: {},
     }
+  },
+  methods: {
+    // 获取课程详细信息
+    async getCourse() {
+      const data = {
+        _courseID: this.courseID,
+      }
+      const msg = await getCourseDetail(data)
+      this.couseTable = msg[0]
+    },
+    // 获取网址栏上的课程号
+    getURl() {
+      const url = this.$route.query
+      this.courseID = url.courseId
+    },
   },
 }
 </script>

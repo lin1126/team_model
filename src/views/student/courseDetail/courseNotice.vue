@@ -1,24 +1,23 @@
 <template>
   <div class="course-notice">
-    <div class="course-notice-contain">
+    <div class="course-notice-contain" v-for="item in msg" :key="item._id">
       <!-- 触发按钮 -->
-      <el-button type="text" @click="dialogVisible = true" class="course-btn">
+      <el-button type="text" @click="item.show = true" class="course-btn">
         <div class="course-notice-list">
           <div class="course-notice-list-logo">公告</div>
-          <span class="course-notice-list-title">关于期末考试说明</span>
-          <span class="course-notice-list-time">2021-10-10 23:58</span>
+          <span class="course-notice-list-title">{{ item.title }}</span>
+          <span class="course-notice-list-time">{{ TimeFormat(item.Time) }}</span>
         </div>
       </el-button>
       <!-- 弹出消息 -->
-      <el-dialog title="关于期末考试说明" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-dialog :title="item.title" :visible.sync="item.show" width="30%" :before-close="handleClose">
         <span class="course-dialog-content">
-          亲们，我们的课程成绩已全部录入到教学系统中。大家可以在教学系统中查询成绩了。 如果你感觉本课程还不错的话，敬请在学校教务系统的评价中给予100分评价，这也是对老师的最大鼓励了。 感谢这一个学期以来的陪伴。 如果你觉得老师有需要改进的地方，请直接回复本条通知，或在QQ上和我反馈（Q号：1105459082）。
-          下学期欢迎选修我的其他课程。有任何疑问，欢迎随时联系。再次感谢。我会想念大家的。
+          {{ item.notice }}
         </span>
 
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button @click="item.show = false">取 消</el-button>
+          <el-button type="primary" @click="item.show = false">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -26,10 +25,21 @@
 </template>
 
 <script>
+import { getCourseNotice } from '@/api/student/courseDetail/courseNotice.js'
+import { formatTime } from '@/utils/formatTime.js'
 export default {
+  created() {
+    this.getURl()
+  },
+  mounted() {
+    this.getNotice()
+  },
   data() {
     return {
-      dialogVisible: false,
+      page: 1,
+      limit: 10,
+      courseID: '',
+      msg: '',
     }
   },
   methods: {
@@ -39,6 +49,26 @@ export default {
           done()
         })
         .catch((_) => {})
+    },
+    // 获取课堂通知
+    async getNotice() {
+      const data = {
+        _id: this.$store.state.id,
+        _page: this.page,
+        _limit: this.limit,
+        _courseID: this.courseID,
+      }
+      const msg = await getCourseNotice(data)
+      this.msg = msg
+    },
+    // 获取网址栏上的课程号
+    getURl() {
+      const url = this.$route.query
+      this.courseID = url.courseId
+    },
+    // 格式化时间
+    TimeFormat(data) {
+      return formatTime(data)
     },
   },
 }
