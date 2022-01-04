@@ -4,17 +4,21 @@
     <!-- 发布留言主体 -->
     <div class="course-message-post">
       <div class="course-message-photo">
-        <el-avatar :size="48" fit="fill" :src="url"></el-avatar>
+        <el-avatar :size="48" fit="fill" :src="this.$store.state.introduction.photo"></el-avatar>
       </div>
+      <!-- 留言文本框部分开始 -->
       <div class="course-message-textarea">
         <el-input type="textarea" placeholder="说点什么吧~~~" v-model="textarea" maxlength="200" show-word-limit resize="none" rows="5"> </el-input>
         <!-- 发布留言主体底部发布按钮 -->
-        <div class="course-message-textarea-bottom"><el-button type="primary" round>发表留言</el-button></div>
+        <div class="course-message-textarea-bottom">
+          <el-button type="primary" round @click="setMessage()">发表留言</el-button>
+        </div>
       </div>
+      <!-- 留言文本框部分结束 -->
     </div>
 
     <!-- 留言列表留言头部 -->
-    <div class="course-message-header">留言 <span class="number"> (54576)</span></div>
+    <div class="course-message-header">留言</div>
     <!-- 已发布留言列表 -->
     <div class="course-message-list" v-for="item in msg" :key="item._id">
       <!-- 头像部分 -->
@@ -30,26 +34,38 @@
           {{ item.message }}
         </p>
         <!-- 回复部分 -->
-        <div class="course-message-reply">
-          <p><span>刘莉珠：</span> 历朝历代不乏自己父母被自己丈夫干掉的人，但还是死心塌地的人</p>
+        <div class="course-message-reply" v-for="child in item.children" :key="child._id">
+          <p>
+            <span>{{ child.name }}：</span> {{ child.message }}
+          </p>
           <div class="course-message-reply-link">
-            <a href="javaScript:;">2021-8-21</a>
+            <a href="javaScript:;">{{ TimeFormat(child.time) }}</a>
           </div>
         </div>
-        <div class="course-message-reply">
-          <p><span>刘莉珠：</span> 历朝历代不乏自己父母被自己丈夫干掉的人，但还是死心塌地的人。</p>
-          <div class="course-message-reply-link"><a href="javaScript:;">2021-8-21</a></div>
-        </div>
-        <div class="course-message-reply">
-          <p><span>刘莉珠：</span> 历朝历代不乏自己父母被自己丈夫干掉的人，但还是死心塌地的人。历朝历代不乏自己父母被自己丈夫干掉的人，但还是死心塌地的人历朝历代不乏自己父母被自己丈夫干掉的人，但还是死心塌地的人历朝历代不乏自己父母被自己丈夫干掉的人，但还是死心塌地的人</p>
-          <div class="course-message-reply-link"><a href="javaScript:;">2021-8-21</a></div>
-          <div class="course-message-reply-more">
-            <a href="#">查看更多回复<i class="el-icon-arrow-right"></i></a>
-          </div>
-        </div>
+
         <!-- 单个评论底部回复部分 -->
         <div class="course-message-bottom">
-          <a href="#"> <i class="el-icon-chat-square"></i><span style="margin-left: 4px">回复</span> </a>
+          <a href="javascript:;" :style="item.isShow ? 'color: #409eff' : 'color: #91919e'">
+            <i class="el-icon-chat-square"></i>
+            <!-- 关闭其他文本框,并清空文本框内容,避免冲突 -->
+            <span
+              style="margin-left: 4px"
+              @click="
+                if (item.isShow == false) {
+                  msg.forEach((i) => {
+                    i.isShow = false
+                  })
+                }
+                item.isShow = !item.isShow
+                textarea_children = ''
+              "
+              >{{ item.isShow ? '收起' : '回复' }}
+            </span>
+          </a>
+          <div v-show="item.isShow">
+            <div style="margin-left: 34px; margin-right: 88px"><el-input type="textarea" :rows="3" v-model="textarea_children" resize="none"> </el-input></div>
+            <div class="reply-btn"><el-button type="primary" @click="setchildrenMes(item._id)">回复</el-button></div>
+          </div>
         </div>
       </div>
     </div>
@@ -57,7 +73,7 @@
 </template>
 
 <script>
-import { getCourseMessage } from '@/api/student/courseDetail/courseMessage.js'
+import { getCourseMessage, setCourseMessage, setCourseMesChildren } from '@/api/student/courseDetail/courseMessage.js'
 import { formatTime } from '@/utils/formatTime.js'
 export default {
   created() {
@@ -68,8 +84,8 @@ export default {
   },
   data() {
     return {
-      url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
       textarea: '',
+      textarea_children: '',
       courseID: '',
       page: 1,
       limit: 10,
@@ -85,6 +101,41 @@ export default {
         _limit: this.limit,
       }
       this.msg = await getCourseMessage(data)
+    },
+    // 留言
+    async setMessage() {
+      const data = {
+        _courseID: this.courseID,
+        _ID: this.$store.state.id,
+        _content: this.textarea,
+      }
+      const msg = await setCourseMessage(data)
+      if (msg === 'OK') {
+        this.$message({
+          message: '发布留言成功',
+          type: 'success',
+        })
+        this.textarea = ''
+        this.getMessage()
+      }
+    },
+    // 回复留言的子留言
+    async setchildrenMes(childrenID) {
+      const data = {
+        _childrenID: childrenID,
+        _ID: this.$store.state.id,
+        _message: this.textarea_children,
+        _name: this.$store.state.introduction.name,
+      }
+      const msg = await setCourseMesChildren(data)
+      if (msg === 'OK') {
+        this.$message({
+          message: '留言成功',
+          type: 'success',
+        })
+        this.textarea_children = ''
+        this.getMessage()
+      }
     },
     // 获取网址栏上的课程号
     getURl() {
@@ -219,6 +270,23 @@ export default {
         padding: 14px 0;
         font-size: 14px;
         color: #91919e;
+      }
+
+      .course-message-bottom .reply-btn {
+        position: absolute;
+        bottom: 24px;
+        right: 2px;
+        width: 88px;
+        height: 75px;
+
+        .el-button {
+          float: left;
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
       }
     }
   }
