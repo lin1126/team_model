@@ -55,113 +55,49 @@
     <!-- 课程盒子部分 -->
     <div class="study-contain">
       <el-row :gutter="10">
-        <!-- 单个课程的盒子开始 -->
-        <router-link :to="courseUrl" target="_blank">
+        <!-- 正在进行课程的盒子开始 -->
+        <router-link :to="'/teacourseDetail?courseId=' + item._id" target="_blank" v-for="item in underwayCourse" :key="item._id">
           <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
             <div class="course-box">
               <!-- 课程顶部图片 -->
-              <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
+              <el-image :src="item.courseDetail[0].Photo" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
                 <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
               </el-image>
               <!-- 课程名称 -->
               <div class="course-title">
-                <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
+                <h3>{{ item.courseDetail[0].name }}</h3>
               </div>
               <!-- 课程日期 -->
-              <div class="course-date">2021-2022 第一学期</div>
+              <div class="course-date">{{ item.courseDetail[0].year }}</div>
               <!-- 授课老师 -->
-              <div class="course-teacher">授课教师：张茹</div>
+              <div class="course-teacher">{{ item.courseDetail[0].class }}</div>
             </div>
           </el-col>
         </router-link>
-        <!-- 单个课程的盒子结束 -->
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
+        <!-- 正在进行课程盒子结束 -->
+        <!-- 遮蔽图层  -->
 
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
+        <!-- 正在进行课程的盒子开始 -->
+        <router-link :to="'/teacourseDetail?courseId=' + item._id" target="_blank" v-for="item in endCourse" :key="item._id">
+          <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
+            <div class="course-box">
+              <div class="course-cover" v-show="isEnd">已结课</div>
+              <!-- 课程顶部图片 -->
+              <el-image :src="item.courseDetail[0].Photo" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
+                <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
+              </el-image>
+              <!-- 课程名称 -->
+              <div class="course-title">
+                <h3>{{ item.courseDetail[0].name }}</h3>
+              </div>
+              <!-- 课程日期 -->
+              <div class="course-date">{{ item.courseDetail[0].year }}</div>
+              <!-- 授课老师 -->
+              <div class="course-teacher">{{ item.courseDetail[0].class }}</div>
             </div>
-            <div class="course-date">2021-2022 第一学期</div>
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
-            </div>
-            <div class="course-date">2021-2022 第一学期</div>
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <!-- 第二行 -->
-        <!-- 单个课程的盒子开始 -->
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <!-- 遮蔽图层  -->
-            <div class="course-cover" v-show="isEnd">已结课</div>
-            <!-- 课程顶部图片 -->
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-            <!-- 课程名称 -->
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
-            </div>
-            <!-- 课程日期 -->
-            <div class="course-date">2021-2022 第一学期</div>
-            <!-- 授课老师 -->
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <!-- 单个课程的盒子结束 -->
-        <!-- 单个课程的盒子开始 -->
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <!-- 遮蔽图层  -->
-            <div class="course-cover" v-show="isEnd">已结课</div>
-            <!-- 课程顶部图片 -->
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-            <!-- 课程名称 -->
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
-            </div>
-            <!-- 课程日期 -->
-            <div class="course-date">2021-2022 第一学期</div>
-            <!-- 授课老师 -->
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <!-- 单个课程的盒子结束 -->
-        <!-- 单个课程的盒子开始 -->
-        <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
-          <div class="course-box">
-            <!-- 遮蔽图层  -->
-            <div class="course-cover" v-show="isEnd">已结课</div>
-            <!-- 课程顶部图片 -->
-            <el-image :src="src" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
-              <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
-            </el-image>
-            <!-- 课程名称 -->
-            <div class="course-title">
-              <h3>电科院计算机建立举行喘吁吁小程序发射点发射点发射点犯得上vvvvvvvvv</h3>
-            </div>
-            <!-- 课程日期 -->
-            <div class="course-date">2021-2022 第一学期</div>
-            <!-- 授课老师 -->
-            <div class="course-teacher">授课教师：张茹</div>
-          </div>
-        </el-col>
-        <!-- 单个课程的盒子结束 -->
+          </el-col>
+        </router-link>
+        <!-- 正在进行课程盒子结束 -->
       </el-row>
     </div>
   </div>
@@ -169,6 +105,8 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
+import { getTeaCourse } from '@/api/teacher/teaCourse.js'
+
 export default {
   name: 'teaCourse',
   components: {
@@ -176,7 +114,6 @@ export default {
   },
   data() {
     return {
-      src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
       courseSearchInput: '',
       courseId: 1001,
       isEnd: true,
@@ -189,12 +126,28 @@ export default {
         semester: '',
         url: ' http://39.105.106.13:9999/stuphoto/stuphoto.jpg',
       },
+      endCourse: '',
+      underwayCourse: '',
     }
   },
-  computed: {
-    courseUrl: function () {
-      return '/teacourseDetail?courseId=' + this.courseId
+  methods: {
+    // 获取课程
+    async getCourse() {
+      const data = {
+        _teacherID: this.$store.state.id,
+      }
+      const msg = await getTeaCourse(data)
+      // 提取正在进行和已结束的课程
+      this.endCourse = msg.filter((value, index, array) => {
+        return value.courseDetail[0].state === 'end'
+      })
+      this.underwayCourse = msg.filter((value, index, array) => {
+        return value.courseDetail[0].state === 'underway'
+      })
     },
+  },
+  created() {
+    this.getCourse()
   },
 }
 </script>
