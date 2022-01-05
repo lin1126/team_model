@@ -24,7 +24,7 @@
             <el-input placeholder="请输入账号" v-model="loginForm.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="userpwd">
-            <el-input v-model="loginForm.userpwd" type="password" placeholder="请输入密码"></el-input>
+            <el-input v-model="loginForm.userpwd" type="password" placeholder="请输入密码" show-password="true"></el-input>
           </el-form-item>
           <!-- 验证码部分开始 -->
           <el-form-item label="验证码" prop="userInputCode">
