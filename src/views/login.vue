@@ -98,7 +98,6 @@ export default {
     },
     // 登录按钮事件
     loginSubmit() {
-      // alert(this.checkEqual())
       this.$refs.ruleForm.validate(async (valid) => {
         if (valid) {
           const msg = { username: this.loginForm.username, userpwd: this.loginForm.userpwd }

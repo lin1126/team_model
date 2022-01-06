@@ -17,19 +17,31 @@
       <el-dialog title="新建课程" :visible.sync="dialogTableVisible" style="text-align: left">
         <!-- 添加课程主体部分 -->
         <div class="form-course">
-          <el-form label-position="left" label-width="80px" :model="fromCourse">
-            <el-form-item label="课程名称">
-              <el-input v-model="fromCourse.name"></el-input>
+          <el-form :rules="rules" label-position="left" label-width="80px" :model="fromCourse" ref="fromCourse">
+            <el-form-item label="课程名称" prop="name">
+              <el-input v-model="fromCourse.name" placeholder="请输入课程名称"></el-input>
             </el-form-item>
-            <el-form-item label="所属机构">
-              <el-input v-model="fromCourse.organization"></el-input>
+            <el-form-item label="所属机构" prop="organization">
+              <el-input v-model="fromCourse.organization" placeholder="请输入课程所属机构"></el-input>
             </el-form-item>
-            <el-form-item label="课程学期">
+            <el-form-item label="课程学期" prop="semester">
               <el-select v-model="fromCourse.semester" placeholder="请选择课程学期">
                 <el-option label="2021-2022第一学期" value="2021-2022第一学期"></el-option>
                 <el-option label="2021-2022第二学期" value="2021-2022第二学期"></el-option>
                 <el-option label="2022-2023第一学期" value="2022-2023第一学期"></el-option>
                 <el-option label="2022-2023第二学期" value="2022-2023第二学期"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="选择班级" prop="gradeValue">
+              <el-select v-model="fromCourse.gradeValue" placeholder="请选择年级" style="width: 30%; padding-right: 3%" @change="getCareer()">
+                <el-option v-for="item in grade" :key="item._id" :label="item._id" :value="item._id"> </el-option>
+              </el-select>
+
+              <el-select v-model="fromCourse.careerValue" placeholder="请选择专业" style="width: 30%; padding-right: 3%" :disabled="!career" @change="getClass()">
+                <el-option v-for="item in career" :key="item._id" :label="item._id" :value="item._id"> </el-option>
+              </el-select>
+              <el-select v-model="fromCourse.classValue" placeholder="请选择班级" style="width: 30%" :disabled="!class1">
+                <el-option v-for="item in class1" :key="item._id" :label="item._id" :value="item._id"> </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="课程封面">
@@ -45,8 +57,8 @@
         </div>
         <!-- 添加课程底部 -->
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogTableVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogTableVisible = false">完 成</el-button>
+          <el-button @click="resetForm('fromCourse')">取 消</el-button>
+          <el-button type="primary" @click="submitForm('fromCourse')">完 成</el-button>
         </div>
       </el-dialog>
       <!-- 添加按钮 -->
@@ -105,7 +117,7 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
-import { getTeaCourse } from '@/api/teacher/teaCourse.js'
+import { getTeaCourse, getGrade, getCareer, getClass } from '@/api/teacher/teaCourse.js'
 
 export default {
   name: 'teaCourse',
@@ -124,10 +136,22 @@ export default {
         name: '',
         organization: '',
         semester: '',
-        url: ' http://39.105.106.13:9999/stuphoto/stuphoto.jpg',
+        gradeValue: '',
+        careerValue: '',
+        classValue: '',
+        url: 'http://39.105.106.13:9999/stuphoto/cousephoto.png',
       },
       endCourse: '',
       underwayCourse: '',
+      grade: '',
+      career: '',
+      class1: '',
+      rules: {
+        name: [{ required: true, message: '此项不能为空', trigger: 'blur' }],
+        organization: [{ required: true, message: '此项不能为空', trigger: 'blur' }],
+        semester: [{ required: true, message: '此项不能为空', trigger: 'blur' }],
+        gradeValue: [{ required: true, message: '此项不能为空', trigger: 'blur' }],
+      },
     }
   },
   methods: {
@@ -145,9 +169,70 @@ export default {
         return value.courseDetail[0].state === 'underway'
       })
     },
+    // 获取年级
+    async getGrade() {
+      const data = await getGrade()
+      this.grade = data.filter((value) => {
+        return value._id !== null
+      })
+    },
+    // 获取专业
+    async getCareer() {
+      this.fromCourse.classValue = ''
+      this.fromCourse.careerValue = ''
+      const req = {
+        _grade: this.fromCourse.gradeValue,
+      }
+      const data = await getCareer(req)
+      this.career = data.filter((value) => {
+        return value._id !== null
+      })
+    },
+    // 获取班级
+    async getClass() {
+      this.fromCourse.classValue = ''
+      const req = {
+        _grade: this.fromCourse.gradeValue,
+        _career: this.fromCourse.careerValue,
+      }
+      const data = await getClass(req)
+      this.class1 = data.filter((value) => {
+        return value._id !== null
+      })
+    },
+    // 提交表单
+    submitForm(formName) {
+      // 如果没有三个选项都选择，则清空所有跟班级有关的信息，以至于触发验证规则
+      if (!this.fromCourse.careerValue || !this.fromCourse.classValue) {
+      }
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // 进行创建
+          this.dialogTableVisible = false
+          this.resetForm('fromCourse')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    // 清空表单
+    resetForm(formName) {
+      this.clearInfo()
+      this.dialogTableVisible = false
+      this.$refs[formName].resetFields()
+    },
+    // 清除班级信息
+    clearInfo() {
+      this.fromCourse.classValue = ''
+      this.fromCourse.careerValue = ''
+      this.career = ''
+      this.class1 = ''
+    },
   },
   created() {
     this.getCourse()
+    this.getGrade()
   },
 }
 </script>
