@@ -3,12 +3,12 @@
     <el-header><Header></Header></el-header>
     <!-- 课程详细部分头部  -->
     <div class="Detail-top">
-      <h1 class="course-title">物联网控制技术与应用</h1>
-      <h2 class="course-class">18物联网工程1、2班</h2>
+      <h1 class="course-title">{{ couseTable.name }}</h1>
+      <h2 class="course-class">{{ couseTable.class }}</h2>
       <p class="course-number">已有48人加入本课程</p>
       <div class="course-pic">
-        <el-image style="width: 240px; height: 180px" :src="url" :fit="fill"></el-image>
-        <p class="course-evaluate">课程评价</p>
+        <el-image style="width: 240px; height: 180px" :src="couseTable.Photo" :fit="fill"></el-image>
+        <p class="course-evaluate"><a :href="'/#/courseDetail/courseMessage?courseId=' + this.courseID">课程留言</a></p>
       </div>
     </div>
     <!-- 右边考勤入口 -->
@@ -61,11 +61,11 @@
     <div class="Detail-content">
       <div class="Detail-content-menu">
         <el-menu class="el-menu-course" :default-active="activeIndex" mode="horizontal" @select="handleSelect" router>
-          <el-menu-item index="/teacourseDetail/teacoursetask">任务</el-menu-item>
-          <el-menu-item index="/teacourseDetail/teacoursenotice">公告</el-menu-item>
-          <el-menu-item index="/teacourseDetail/teacoursemessage">留言</el-menu-item>
-          <el-menu-item index="/teacourseDetail/teacourseinfo">课程介绍</el-menu-item>
-          <el-menu-item index="/teacourseDetail/teacoursecontrol">课程管理</el-menu-item>
+          <el-menu-item :index="'/teacourseDetail/teacoursetask?courseId=' + this.courseID">任务</el-menu-item>
+          <el-menu-item :index="'/teacourseDetail/teacoursenotice?courseId=' + this.courseID">公告</el-menu-item>
+          <el-menu-item :index="'/teacourseDetail/teacoursemessage?courseId=' + this.courseID">留言</el-menu-item>
+          <el-menu-item :index="'/teacourseDetail/teacourseinfo?courseId=' + this.courseID">课程介绍</el-menu-item>
+          <el-menu-item :index="'/teacourseDetail/teacoursecontrol?courseId=' + this.courseID">课程管理</el-menu-item>
         </el-menu>
       </div>
       <div class="Detail-contain">
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { getCourseDetail } from '@/api/student/courseDetail/courseIntro.js'
 import Header from '@/components/Header.vue'
 export default {
   name: 'teaCourseDetail',
@@ -87,6 +88,8 @@ export default {
     return {
       url: require('@/assets/images/detailTop.jpg'),
       activeIndex: '/courseDetail/courseTask',
+      courseID: '',
+      couseTable: {},
       // 考勤的侧边栏打开变量
       drawer: false,
       percentage: 100,
@@ -99,20 +102,27 @@ export default {
       ],
     }
   },
-  mounted() {
+  created() {
     this.getURl()
   },
+  mounted() {
+    this.getCourse()
+  },
   methods: {
+    // 获取网址栏上的课程号
     getURl() {
       const url = this.$route.query
-      console.log(url.courseId)
+      this.courseID = url.courseId
     },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then((_) => {
-          done()
-        })
-        .catch((_) => {})
+
+    // 获取课程详细信息
+    async getCourse() {
+      const data = {
+        _courseID: this.courseID,
+      }
+      const msg = await getCourseDetail(data)
+      this.couseTable = msg[0]
+      console.log(msg)
     },
   },
 }
