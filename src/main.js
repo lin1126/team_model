@@ -10,7 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入封装好的axios
 import request from '@/api/request.js'
 // 引入获取cookie的函数
-import { getCookie } from '@/utils/cookie.js'
+import { getCookie, delCookie } from '@/utils/cookie.js'
 // 引入ajax
 // 设置为全局下利用$request就可以调用
 Vue.prototype.$request = request
@@ -40,6 +40,8 @@ router.beforeEach(async (to, from, next) => {
         if (to.meta.role === store.state.role) {
           next()
         } else {
+          // token无效时的操作
+          delCookie('Token')
           ElementUI.Message.error({
             message: '权限不足，请重新登录',
           })
@@ -48,7 +50,6 @@ router.beforeEach(async (to, from, next) => {
           })
         }
       } else {
-        // token无效时的操作
         ElementUI.Message.error({
           message: '登录失败，请重新登录',
         })
