@@ -117,7 +117,7 @@
 
 <script>
 import PageHeader from '@/components/PageHeader.vue'
-import { getTeaCourse, getGrade, getCareer, getClass } from '@/api/teacher/teaCourse.js'
+import { getTeaCourse, getGrade, getCareer, getClass, addCourse } from '@/api/teacher/teaCourse.js'
 
 export default {
   name: 'teaCourse',
@@ -214,6 +214,7 @@ export default {
         if (valid) {
           // 进行创建
           this.dialogTableVisible = false
+          this.addCourse()
           this.resetForm('fromCourse')
         } else {
           console.log('error submit!!')
@@ -233,6 +234,22 @@ export default {
       this.fromCourse.careerValue = ''
       this.career = ''
       this.class1 = ''
+    },
+    // 新建课程
+    async addCourse() {
+      const req = {
+        _courseMsg: JSON.stringify(this.fromCourse),
+        _teacherID: this.$store.state.id,
+        _teacherName: this.$store.state.introduction.name,
+      }
+      const data = await addCourse(req)
+      if (data === 'OK') {
+        this.getCourse()
+        this.$message({
+          message: '新建课程成功!',
+          type: 'success',
+        })
+      }
     },
   },
   created() {

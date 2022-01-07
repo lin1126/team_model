@@ -15,3 +15,8 @@ export function getCareer(data) {
 export function getClass(data) {
   return request.get('student/getClass', data)
 }
+
+// 获取班级
+export function addCourse(data) {
+  return request.post('course/addCourse', data)
+}
