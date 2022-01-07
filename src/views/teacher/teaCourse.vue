@@ -14,7 +14,7 @@
     <!-- 添加课程按键 -->
     <div class="add-course-btn">
       <!-- 添加课程头部 -->
-      <el-dialog title="新建课程" :visible.sync="dialogTableVisible" style="text-align: left">
+      <el-dialog title="新建课程" :visible.sync="dialogTableVisible" style="text-align: left" :show-close="false" :close-on-press-escape="false" :close-on-click-modal="false">
         <!-- 添加课程主体部分 -->
         <div class="form-course">
           <el-form :rules="rules" label-position="left" label-width="80px" :model="fromCourse" ref="fromCourse">
@@ -89,11 +89,11 @@
         <!-- 正在进行课程盒子结束 -->
         <!-- 遮蔽图层  -->
 
-        <!-- 正在进行课程的盒子开始 -->
+        <!-- 已结课课程的盒子开始 -->
         <router-link :to="'/teacourseDetail?courseId=' + item._id" target="_blank" v-for="item in endCourse" :key="item._id">
           <el-col :lg="{ span: 6, offset: 2, pull: 1 }">
             <div class="course-box">
-              <div class="course-cover" v-show="isEnd">已结课</div>
+              <div class="course-cover">已结课</div>
               <!-- 课程顶部图片 -->
               <el-image :src="item.courseDetail[0].Photo" style="border-radius: 14px; height: 150px; width: 100%" key="cover">
                 <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
@@ -109,7 +109,7 @@
             </div>
           </el-col>
         </router-link>
-        <!-- 正在进行课程盒子结束 -->
+        <!-- 已结课课程盒子结束 -->
       </el-row>
     </div>
   </div>
@@ -126,9 +126,8 @@ export default {
   },
   data() {
     return {
+      // 课程搜索框输入的内容
       courseSearchInput: '',
-      courseId: 1001,
-      isEnd: true,
       // 新建课程对话框显示变量
       dialogTableVisible: false,
       // 添加课程中表单的数据
@@ -141,11 +140,15 @@ export default {
         classValue: '',
         url: 'http://39.105.106.13:9999/stuphoto/cousephoto.png',
       },
+      // 结束课程
       endCourse: '',
+      // 正在进行中的课程
       underwayCourse: '',
+      // 年级、专业、班级
       grade: '',
       career: '',
       class1: '',
+      // 新建课程表单规则
       rules: {
         name: [{ required: true, message: '此项不能为空', trigger: 'blur' }],
         organization: [{ required: true, message: '此项不能为空', trigger: 'blur' }],
@@ -204,6 +207,8 @@ export default {
     submitForm(formName) {
       // 如果没有三个选项都选择，则清空所有跟班级有关的信息，以至于触发验证规则
       if (!this.fromCourse.careerValue || !this.fromCourse.classValue) {
+        this.fromCourse.gradeValue = ''
+        this.fromCourse.careerValue = ''
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -231,6 +236,7 @@ export default {
     },
   },
   created() {
+    // 初始化获取课程信息和年级
     this.getCourse()
     this.getGrade()
   },
