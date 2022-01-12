@@ -8,7 +8,7 @@
       <p class="course-number">已有48人加入本课程</p>
       <div class="course-pic">
         <el-image style="width: 240px; height: 180px" :src="couseTable.Photo" :fit="fill"></el-image>
-        <p class="course-evaluate"><a :href="'/#/courseDetail/courseMessage?courseId=' + this.courseID">课程留言</a></p>
+        <p class="course-evaluate"><a :href="'/#/teacourseDetail/teacoursemessage?courseId=' + this.courseID">课程留言</a></p>
       </div>
     </div>
     <!-- 右边考勤入口 -->
@@ -122,7 +122,7 @@ export default {
       }
       const msg = await getCourseDetail(data)
       this.couseTable = msg[0]
-      console.log(msg)
+      this.$store.commit('SET_COURSEINFO', msg[0])
     },
   },
 }

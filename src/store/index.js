@@ -9,6 +9,7 @@ export default new Vuex.Store({
     id: '',
     role: '',
     introduction: '',
+    courseInfo: {},
   },
   mutations: {
     SET_ROLE(state, role) {
@@ -19,6 +20,14 @@ export default new Vuex.Store({
     },
     SET_INTRODUCTION(state, introduction) {
       state.introduction = introduction
+    },
+    SET_COURSEINFO(state, courseInfo) {
+      state.courseInfo = {
+        grade: courseInfo.class.substr(0, 2),
+        class: courseInfo.class.substr(-2, 1),
+        career: courseInfo.class.slice(2, -2),
+        name: courseInfo.name,
+      }
     },
   },
   actions: {},
