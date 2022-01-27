@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
+import Header from '@/components/TeaHeader.vue'
 import TeaAside from '@/components/teaAside.vue'
 export default {
   name: 'stuHomePage',
