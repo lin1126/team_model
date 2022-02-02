@@ -11,7 +11,8 @@
         <el-select v-model="fromCourse.careerValue" placeholder="请选择专业" style="width: 30%; padding-right: 3%" :disabled="!career" @change="getClass()">
           <el-option v-for="item in career" :key="item._id" :label="item._id" :value="item._id"> </el-option>
         </el-select>
-        <el-select v-model="fromCourse.classValue" placeholder="请选择班级" style="width: 30%" :disabled="!class1">
+        <!-- 选择班级后直接获取班级学生列表 -->
+        <el-select v-model="fromCourse.classValue" placeholder="请选择班级" style="width: 30%" :disabled="!class1" @change="getClaStu()">
           <el-option v-for="item in class1" :key="item._id" :label="item._id" :value="item._id"> </el-option>
         </el-select>
         <!-- 选择班级部分结束 -->
@@ -23,34 +24,34 @@
     <!-- 分割线 -->
     <el-divider></el-divider>
     <!-- 空状态 -->
-    <div class="empty-box" v-if="flase">
+    <div class="empty-box" v-if="studentInfo.length == 0">
       <el-empty description="请在右上角选择班级" style=""></el-empty>
     </div>
     <!-- 管理班级模块开始 -->
     <div class="teacher-class">
       <!--班级学生头部模块开始 -->
-      <div class="class-header">
+      <div class="class-header" v-if="studentInfo.length !== 0">
         <span class="class-icon"><i class="el-icon-data-board"></i></span>
-        <p class="class-name">18物联网工程2班</p>
-        <span class="class-number">学生人数 0 人</span>
+        <p class="class-name">{{ this.fromCourse.gradeValue + this.fromCourse.careerValue + this.fromCourse.classValue }}班</p>
+        <span class="class-number">学生人数 {{ this.studentLength }} 人</span>
         <span class="add-student-link">
           <el-button type="primary" icon="el-icon-plus" round @click="dialogTableVisible = true">添加学生</el-button>
         </span>
       </div>
       <!--班级学生头部模块结束 -->
       <!-- 学生表格部分开始 -->
-      <div class="class-student-info">
+      <div class="class-student-info" v-if="studentInfo.length !== 0">
         <el-table :data="studentInfo.filter((data) => !search || data.name.toLowerCase().includes(search.toLowerCase()))" border>
           <el-table-column label="序号" width="90" align="center" fixed>
             <template slot-scope="scope">
-              <el-tag size="medium">{{ scope.row.no }}</el-tag>
+              <el-tag size="medium">{{ scope.$index + 1 }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="number" label="学号" width=""> </el-table-column>
+          <el-table-column prop="ID" label="学号" width=""> </el-table-column>
           <el-table-column prop="name" label="姓名" width=""> </el-table-column>
           <el-table-column label="身份" width="90" align="center">
             <template slot-scope="scope">
-              <el-tag size="medium">{{ scope.row.identify }}</el-tag>
+              <el-tag size="medium">{{ scope.row.identity }}</el-tag>
             </template>
           </el-table-column>
           <el-table-column width="280" align="center">
@@ -69,62 +70,62 @@
       <!-- 查看学生信息的Dialog -->
       <el-dialog title="学生信息" :visible.sync="InfoDialogVisible" width="60%" :show-close="false" :close-on-click-modal="false">
         <!-- 学生详细信息表格 -->
-        <el-descriptions class="margin-top" :column="3" :size="size" border>
+        <el-descriptions class="margin-top" :column="3" border>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-user"></i>
               姓名
             </template>
-            林成俊
+            {{ stuDetail.name }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-mobile-phone"></i>
               手机号
             </template>
-            18100000000
+            {{ stuDetail.phone == '' ? '未绑定' : stuDetail.phone }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-message"></i>
               邮箱
             </template>
-            670542311@qq.com
+            {{ stuDetail.email == '' ? '未绑定' : stuDetail.email }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-tickets"></i>
               学号
             </template>
-            1631808212211
+            {{ stuDetail.ID }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-school"></i>
               学校
             </template>
-            福建江夏学院
+            {{ stuDetail.school }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-office-building"></i>
               院系
             </template>
-            电子信息科学学院
+            {{ stuDetail.college }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-receiving"></i>
               班级
             </template>
-            18物联网工程2班
+            {{ stuDetail.grade + stuDetail.career + stuDetail.class }}班
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">
               <i class="el-icon-house"></i>
               通信地址
             </template>
-            江苏省苏州市吴中区吴中大道 1188 号
+            {{ stuDetail.place == '' ? '未填写' : stuDetail.place }}
           </el-descriptions-item>
         </el-descriptions>
         <span slot="footer" class="dialog-footer">
@@ -158,6 +159,7 @@
 <script>
 import PageHeader from '@/components/PageHeader.vue'
 import { getGrade, getCareer, getClass } from '@/api/teacher/teaCourse.js'
+import { getStuList, getStuInfo } from '@/api/teacher/teaClass.js'
 export default {
   name: 'teaClass',
   components: {
@@ -165,75 +167,23 @@ export default {
   },
   data() {
     return {
+      sort: 1,
       InfoDialogVisible: false,
       dialogTableVisible: false,
       search: '',
       activeName: '1',
-      studentInfo: [
-        {
-          no: 1,
-          number: 1631808212211,
-          name: '林成俊',
-          sex: '男',
-          identify: '学生',
-        },
-        {
-          no: 2,
-          number: 1631708212125,
-          name: '刘莉珠',
-          sex: '女',
-          identify: '学生',
-        },
-        {
-          no: 3,
-          number: 1631808212211,
-          name: '林成俊',
-          sex: '男',
-          identify: '学生',
-        },
-        {
-          no: 4,
-          number: 1631708212125,
-          name: '刘莉珠',
-          sex: '女',
-          identify: '学生',
-        },
-        {
-          no: 5,
-          number: 1631808212211,
-          name: '林成俊',
-          sex: '男',
-          identify: '学生',
-        },
-        {
-          no: 6,
-          number: 1631708212125,
-          name: '刘莉珠',
-          sex: '女',
-          identify: '学生',
-        },
-        {
-          no: 7,
-          number: 1631808212211,
-          name: '林成俊',
-          sex: '男',
-          identify: '学生',
-        },
-        {
-          no: 8,
-          number: 1631708212125,
-          name: '刘莉珠',
-          sex: '女',
-          identify: '学生',
-        },
-      ],
+      // 班级学生列表
+      studentInfo: [],
+      // 班级学生人数
+      studentLength: 0,
       // 选择年级班级和专业
       fromCourse: {
         gradeValue: '',
         careerValue: '',
         classValue: '',
       },
-
+      // 点击查看的学生信息
+      stuDetail: '',
       // 年级、专业、班级
       grade: '',
       career: '',
@@ -267,6 +217,8 @@ export default {
     },
     // 获取专业
     async getCareer() {
+      this.studentInfo.length = 0
+      this.class1 = ''
       this.fromCourse.classValue = ''
       this.fromCourse.careerValue = ''
       const req = {
@@ -279,6 +231,7 @@ export default {
     },
     // 获取班级
     async getClass() {
+      this.studentInfo.length = 0
       this.fromCourse.classValue = ''
       const req = {
         _grade: this.fromCourse.gradeValue,
@@ -289,10 +242,26 @@ export default {
         return value._id !== null
       })
     },
+    // 获取选中班级下的学生列表
+    async getClaStu() {
+      const req = {
+        _grade: this.fromCourse.gradeValue,
+        _career: this.fromCourse.careerValue,
+        _class: this.fromCourse.classValue,
+      }
+      const data = await getStuList(req)
+      this.studentInfo = data.stuList
+      this.studentLength = data.stuLength
+    },
     // 点击查看按钮
-    checkClick(row) {
+    async checkClick(row) {
       this.InfoDialogVisible = true
-      console.log(row)
+      const req = {
+        _ID: row.ID,
+      }
+      const data = await getStuInfo(req)
+      this.stuDetail = data[0]
+      console.log(data[0])
     },
     // 删除学生
     stuDelete() {

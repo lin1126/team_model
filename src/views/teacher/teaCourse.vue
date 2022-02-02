@@ -144,7 +144,7 @@ export default {
       endCourse: '',
       // 正在进行中的课程
       underwayCourse: '',
-      // 年级、专业、班级
+      // 获取的年级、专业、班级
       grade: '',
       career: '',
       class1: '',
@@ -193,6 +193,7 @@ export default {
     },
     // 获取班级
     async getClass() {
+      this.class1 = ''
       this.fromCourse.classValue = ''
       const req = {
         _grade: this.fromCourse.gradeValue,
