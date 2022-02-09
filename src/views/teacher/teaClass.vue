@@ -61,7 +61,7 @@
             </template>
             <template slot-scope="scope">
               <el-button @click="checkClick(scope.row)" type="text" size="medium"><i class="el-icon-view"></i> 查看</el-button>
-              <el-button type="text" size="medium" style="color: #f56c6c" @click="stuDelete"><i class="el-icon-delete"></i>删除</el-button>
+              <el-button type="text" size="medium" style="color: #f56c6c" @click="stuDelete(scope.row)"><i class="el-icon-delete"></i>删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -160,7 +160,7 @@
 <script>
 import PageHeader from '@/components/PageHeader.vue'
 import { getGrade, getCareer, getClass } from '@/api/teacher/teaCourse.js'
-import { getStuList, getStuInfo, addStudent } from '@/api/teacher/teaClass.js'
+import { getStuList, getStuInfo, addStudent, delStudent } from '@/api/teacher/teaClass.js'
 export default {
   name: 'teaClass',
   components: {
@@ -265,7 +265,7 @@ export default {
       console.log(data[0])
     },
     // 删除学生
-    stuDelete() {
+    stuDelete(msg) {
       this.$confirm('此操作将永久删除该学生, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -274,13 +274,23 @@ export default {
         closeOnPressEscape: false,
         closeOnClickModal: false,
       })
-        .then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!',
-          })
+        .then(async () => {
+          const req = { _ID: msg.ID }
+          const data = await delStudent(req)
+          if (data === 'OK') {
+            // 刷新当前班级学生列表
+            this.getClaStu()
+            this.$message({
+              type: 'success',
+              message: '删除学生成功!',
+            })
+          } else {
+            this.$message.error('删除学生失败！')
+          }
         })
-        .catch(() => {})
+        .catch(() => {
+          console.log('保存吗')
+        })
     },
     // 添加学生
     addStudentHandel(formName) {
