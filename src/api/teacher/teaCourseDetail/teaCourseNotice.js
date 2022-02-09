@@ -9,3 +9,13 @@ export function getCourseNotice(data) {
 export function addCourseNotice(data) {
   return request.post('/notice/addNotice', data)
 }
+
+// 修改课程状态
+export function changeCourseState(data) {
+  return request.post('/course/chageState', data)
+}
+
+// 删除课程
+export function delCourse(data) {
+  return request.post('/course/delCourse', data)
+}
