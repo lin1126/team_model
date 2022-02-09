@@ -34,6 +34,7 @@
         <span class="class-icon"><i class="el-icon-data-board"></i></span>
         <p class="class-name">{{ this.fromCourse.gradeValue + this.fromCourse.careerValue + this.fromCourse.classValue }}班</p>
         <span class="class-number">学生人数 {{ this.studentLength }} 人</span>
+        <!-- 添加学生按钮 -->
         <span class="add-student-link">
           <el-button type="primary" icon="el-icon-plus" round @click="dialogTableVisible = true">添加学生</el-button>
         </span>
@@ -139,17 +140,17 @@
         <div class="form-course">
           <el-form :rules="rules" label-position="left" label-width="80px" :model="fromStudent" ref="fromStudent">
             <el-form-item label="学号" prop="ID">
-              <el-input v-model="fromStudent.ID" placeholder="请输入学号"></el-input>
+              <el-input v-model="fromStudent.ID" placeholder="学号请输入纯数字"></el-input>
             </el-form-item>
             <el-form-item label="姓名" prop="name">
               <el-input v-model="fromStudent.name" placeholder="请输入姓名"></el-input>
             </el-form-item>
           </el-form>
         </div>
-        <!-- 添加课程底部 -->
+        <!-- 添加学生底部 -->
         <div slot="footer" class="dialog-footer">
-          <el-button @click="resetForm('fromStudent')">取 消</el-button>
-          <el-button type="primary" @click="submitForm('fromStudent')">完 成</el-button>
+          <el-button @click="resetForm()">取 消</el-button>
+          <el-button type="primary" @click="addStudentHandel('fromStudent')">完 成</el-button>
         </div>
       </el-dialog>
     </div>
@@ -159,7 +160,7 @@
 <script>
 import PageHeader from '@/components/PageHeader.vue'
 import { getGrade, getCareer, getClass } from '@/api/teacher/teaCourse.js'
-import { getStuList, getStuInfo } from '@/api/teacher/teaClass.js'
+import { getStuList, getStuInfo, addStudent } from '@/api/teacher/teaClass.js'
 export default {
   name: 'teaClass',
   components: {
@@ -189,12 +190,12 @@ export default {
       career: '',
       class1: '',
 
-      // 添加课程中表单的数据
+      // 添加学生中表单的数据
       fromStudent: {
         ID: '',
         name: '',
-        school: '',
-        college: '',
+        school: '福建江夏学院',
+        college: '电子信息科学学院',
         grade: '',
         career: '',
         class: '',
@@ -280,6 +281,46 @@ export default {
           })
         })
         .catch(() => {})
+    },
+    // 添加学生
+    addStudentHandel(formName) {
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          this.fromStudent.grade = this.fromCourse.gradeValue
+          this.fromStudent.career = this.fromCourse.careerValue
+          this.fromStudent.class = this.fromCourse.classValue
+          const data = await addStudent(this.fromStudent)
+          if (data.code === 200) {
+            this.$message({
+              message: data.msg,
+              type: 'success',
+            })
+            // 刷新当前班级学生列表
+            this.getClaStu()
+            // 重置添加学生表格信息
+            this.resetForm()
+          } else {
+            this.$message.error(data.msg)
+          }
+        } else {
+          this.$message.error('信息填写错误，请重新检查是否符合规范！')
+          return false
+        }
+      })
+    },
+    // 重置添加学生表格中的数据,并关闭表格
+    resetForm() {
+      this.fromStudent = {
+        ID: '',
+        name: '',
+        school: '福建江夏学院',
+        college: '电子信息科学学院',
+        grade: '',
+        career: '',
+        class: '',
+        identify: '学生',
+      }
+      this.dialogTableVisible = false
     },
   },
   created() {

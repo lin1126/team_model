@@ -9,3 +9,8 @@ export function getStuList(data) {
 export function getStuInfo(data) {
   return request.post('class/getStuInfo', data)
 }
+
+// 根据学号获取学生信息
+export function addStudent(data) {
+  return request.post('class/addStudent', data)
+}
