@@ -15,9 +15,9 @@
     <div class="quick-entry-layou">
       <ul>
         <li><el-button @click="drawer = true" type="primary" icon="el-icon-s-claim" circle></el-button><span>考勤</span></li>
-        <li><el-button type="primary" icon="el-icon-data-board" circle></el-button><span>公告</span></li>
-        <li><el-button type="primary" icon="el-icon-chat-dot-round" circle></el-button><span>留言</span></li>
-        <li><el-button type="primary" icon="el-icon-setting" circle></el-button><span>设置</span></li>
+        <li><el-button type="primary" icon="el-icon-data-board" circle @click="goNotice()"></el-button><span>公告</span></li>
+        <li><el-button type="primary" icon="el-icon-chat-dot-round" circle @click="goMessage()"></el-button><span>留言</span></li>
+        <li><el-button type="primary" icon="el-icon-setting" circle @click="goSet()"></el-button><span>设置</span></li>
       </ul>
     </div>
     <!-- 考勤模块 -->
@@ -123,6 +123,19 @@ export default {
       const msg = await getCourseDetail(data)
       this.couseTable = msg[0]
       this.$store.commit('SET_COURSEINFO', msg[0])
+    },
+
+    // 跳转路由至公告界面
+    goNotice() {
+      this.$router.push('/teacourseDetail/teacoursenotice?courseId=' + this.courseID)
+    },
+    // 跳转路由至留言界面
+    goMessage() {
+      this.$router.push('/teacourseDetail/teacoursemessage?courseId=' + this.courseID)
+    },
+    // 跳转至设置界面
+    goSet() {
+      this.$router.push('/teacourseDetail/teacoursecontrol?courseId=' + this.courseID)
     },
   },
 }
