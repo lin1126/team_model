@@ -24,7 +24,7 @@
           </span>
           &nbsp;&nbsp;
           <el-popconfirm @confirm="delAllNotice()" confirm-button-text="确认" cancel-button-text="取消" icon="el-icon-info" icon-color="red" title="是否删除选中的通知？">
-            <el-link slot="reference" type="danger" icon="el-icon-delete" :underline="false">全部删除</el-link>
+            <el-link slot="reference" type="danger" icon="el-icon-delete" :underline="false">删除选中</el-link>
           </el-popconfirm>
         </div>
         <div class="notify-operate" @click="checkboxShow = !checkboxShow"><el-link type="primary" icon="el-icon-edit" :underline="false">批量编辑</el-link></div>
@@ -130,6 +130,7 @@ export default {
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length
     },
     async getCourseNotice() {
+      this.cities = []
       const req = { _id: this.$store.state.id, _page: '', _limit: '' }
       const data = await getCourse(req)
       data.forEach((value) => {
@@ -161,6 +162,7 @@ export default {
     async delNotice(id) {
       const data = await delCourseNotice(id)
       if (data === 'OK') {
+        this.checkedCities = []
         this.getCourseNotice()
       }
     },
@@ -171,8 +173,8 @@ export default {
       }
       const data = await delCheckedNotice(this.checkedCities)
       if (data === 'OK') {
-        this.data = ''
         this.checkedCities = []
+        this.getCourseNotice()
       }
     },
     // 格式化时间
