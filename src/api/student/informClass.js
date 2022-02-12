@@ -34,3 +34,8 @@ export function delCheckedNotice(id) {
   }
   return request.post('/notice/delCheckedNotice', data)
 }
+
+// 获取未读的课程通知列表
+export function getUnreadCourse(data) {
+  return request.get('/notice/getUnreadNotice', data)
+}
