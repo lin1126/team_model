@@ -55,7 +55,7 @@
                     <el-badge :is-dot="item.State == 'true' ? false : true" class="item">
                       <div class="notify-icon"><i class="el-icon-bell"></i></div>
                     </el-badge>
-                    &nbsp;<span>{{ item.type }}</span>
+                    &nbsp;<span class="limit-width-240px">{{ item.title }}</span>
                   </div>
                   <!-- 通知的发布课程 -->
                   <div class="notify-from">
@@ -205,7 +205,6 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  // float: right;
   width: 320px;
   height: 60px;
   line-height: 60px;
@@ -259,11 +258,21 @@ export default {
 
       .notify-title {
         display: inline-block;
+        width: 45%;
         height: 32px;
         line-height: 32px;
         font-size: 16px;
         padding: 8px 12px;
 
+        .limit-width-240px {
+          display: inline-block;
+          height: 32px;
+          width: 240px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: middle;
+        }
         .notify-icon {
           display: inline-block;
           width: 32px;
