@@ -30,6 +30,16 @@ import TeaCourseMessage from '@/views/teacher/teaCourseDetail/teaCourseMessage.v
 import TeaCourseNotice from '@/views/teacher/teaCourseDetail/teaCourseNotice.vue'
 import TeaCourseTask from '@/views/teacher/teaCourseDetail/teaCourseTask.vue'
 import TeaCourseControl from '@/views/teacher/teaCourseDetail/teaCourseControl.vue'
+// 引入管理员路由组件
+import AdminHome from '@/views/admin/adminHome.vue'
+import AdminVideo from '@/views/admin/adminVideo.vue'
+import AdminEnvironment from '@/views/admin/adminEnvironment.vue'
+import AdminDeviceControl from '@/views/admin/adminDeviceControl.vue'
+import AdminMotionControl from '@/views/admin/adminMotionControl.vue'
+import AdminHumitureShow from '@/views/admin/adminHumitureShow.vue'
+import AdminDeviceShow from '@/views/admin/adminDeviceShow.vue'
+import AdminPictureShow from '@/views/admin/adminPictureShow.vue'
+import AdminInfo from '@/views/admin/adminInfo.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -231,6 +241,74 @@ const routes = [
         path: 'teacoursecontrol',
         component: TeaCourseControl,
         meta: { role: '教师' },
+      },
+    ],
+  },
+  {
+    path: '/adminhome',
+    name: 'AdminHome',
+    component: AdminHome,
+    meta: { role: '管理员' },
+    children: [
+      {
+        name: 'adminvideo',
+        path: 'adminvideo',
+        component: AdminVideo,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'adminenvironment',
+        path: 'adminenvironment',
+        component: AdminEnvironment,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'admindevicecontrol',
+        path: 'admindevicecontrol',
+        component: AdminDeviceControl,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'adminmotioncontrol',
+        path: 'adminmotioncontrol',
+        component: AdminMotionControl,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'adminhumitureshow',
+        path: 'adminhumitureshow',
+        component: AdminHumitureShow,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'admindeviceshow',
+        path: 'admindeviceshow',
+        component: AdminDeviceShow,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'adminpictureshow',
+        path: 'adminpictureshow',
+        component: AdminPictureShow,
+        meta: { role: '管理员' },
+      },
+      {
+        name: 'admininfo',
+        path: 'admininfo',
+        component: AdminInfo,
+        meta: { role: '管理员' },
+      },
+      {
+        path: 'adminPhoto',
+        name: 'adminPhoto',
+        component: StuPhoto,
+        meta: { role: '管理员' },
+      },
+      {
+        path: 'adminPassword',
+        name: 'adminPassword',
+        component: StuPassword,
+        meta: { role: '管理员' },
       },
     ],
   },

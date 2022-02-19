@@ -110,6 +110,8 @@ export default {
               this.$router.push({ path: '/stuhomepage/studycourse' })
             } else if (data.identify === '教师') {
               this.$router.push({ path: '/teahome/teacourse' })
+            } else if (data.identify === '管理员') {
+              this.$router.push({ path: '/adminhome/adminvideo' })
             }
           } else {
             this.$message.error({
