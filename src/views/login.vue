@@ -66,6 +66,7 @@ export default {
         callback()
       } else {
         this.refreshCode()
+        this.loginForm.userInputCode = ''
         callback(new Error('验证码不匹配!'))
       }
     }
