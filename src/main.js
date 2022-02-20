@@ -11,10 +11,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import request from '@/api/request.js'
 // 引入获取cookie的函数
 import { getCookie, delCookie } from '@/utils/cookie.js'
+// 引入echarts图表
+import * as echarts from 'echarts'
 // 引入ajax
 // 设置为全局下利用$request就可以调用
 Vue.prototype.$request = request
-
+// 引入echarts图表
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
