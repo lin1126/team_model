@@ -178,14 +178,14 @@ export default {
 
 .device_contain {
   display: flex;
-  width: 100%;
+  width: calc(100% - 64px);
   height: 264px;
   padding-top: 16px;
   background-color: #fff;
   margin-bottom: 24px;
   text-align: center;
   border-radius: 5px;
-  margin-top: 32px;
+  margin: 32px 32px 0 32px;
 }
 
 .device_contain_children {
