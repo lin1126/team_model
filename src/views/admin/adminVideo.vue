@@ -33,6 +33,12 @@ export default {
   components: {
     PageHeader,
   },
+  data() {
+    return {
+      src: 'http://192.168.137.32:4242/',
+      // src: 'http://39.105.106.13:8000/',
+    }
+  },
 }
 </script>
 
