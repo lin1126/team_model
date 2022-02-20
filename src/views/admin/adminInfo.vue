@@ -27,22 +27,9 @@
           <el-descriptions-item label="身份">
             <el-tag size="medium">{{ stuInfo.identity }}</el-tag>
           </el-descriptions-item>
-          <el-descriptions-item label="学校">
+          <el-descriptions-item label="学校" :labelStyle="{ 'text-align': 'center' }" :contentStyle="{ 'text-align': 'center' }">
             <span v-if="!isEdit">{{ stuInfo.school }}</span>
             <el-input type="text" placeholder="请输入内容" v-model="stuInfo.school" maxlength="20" show-word-limit v-if="isEdit" disabled> </el-input>
-          </el-descriptions-item>
-          <el-descriptions-item label="院系">
-            <span v-if="!isEdit">{{ stuInfo.college }}</span>
-            <el-input type="text" placeholder="请输入内容" v-model="stuInfo.college" maxlength="15" show-word-limit v-if="isEdit" disabled> </el-input>
-          </el-descriptions-item>
-          <el-descriptions-item label="">
-            <div style="min-width: 200px" v-if="isEdit"></div>
-          </el-descriptions-item>
-          <el-descriptions-item label="通信地址" :labelStyle="{ 'text-align': 'center' }" :contentStyle="{ 'text-align': 'center' }">
-            <span v-if="!isEdit">{{ stuInfo.place ? stuInfo.place : '未填写通信地址' }}</span>
-            <span>
-              <el-input type="text" placeholder="请输入您的通信地址" v-model="stuInfo.place" maxlength="30" show-word-limit v-if="isEdit"> </el-input>
-            </span>
           </el-descriptions-item>
         </el-descriptions>
       </div>
