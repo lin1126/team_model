@@ -64,6 +64,8 @@ router.beforeEach(async (to, from, next) => {
         next('/stuhomepage/studycourse')
       } else if (mes.info[0].identity === '教师') {
         next('/teaHome')
+      } else if (mes.info[0].identity === '管理员') {
+        next('/adminhome/adminvideo')
       }
     }
     next()
