@@ -9,45 +9,47 @@
       <el-divider></el-divider>
 
       <!-- 设备控制页控制模式部分 -->
-      <div class="device_head">
-        <!-- 头部左边模块 -->
-        <div class="device_head_left">
-          <!-- 控制模式开关 -->
-          <el-switch v-model="autocontrol" :width="60" style="display: block" active-text="自动控制" inactive-text="手动控制"> </el-switch>
-        </div>
-        <!-- 头部右边模块 -->
-        <div class="device_head_right">
-          <div class="hint">
-            <!-- 鼠标悬浮显示提示信息  -->
-            <el-popover placement="top-start" title="使用说明" width="200" trigger="hover" content="如果需要控制设备,请切换至手动模式.">
-              <el-button class="el-icon-question" slot="reference"></el-button>
-            </el-popover>
+      <div v-loading="fullscreenLoading">
+        <div class="device_head">
+          <!-- 头部左边模块 -->
+          <div class="device_head_left">
+            <!-- 控制模式开关 -->
+            <el-switch v-model="autocontrol" :width="60" style="display: block" active-text="自动控制" inactive-text="手动控制"> </el-switch>
           </div>
-          <div class="descript">
-            <h3>当前控制模式为</h3>
-            <br />
-            <br />
-            <span>{{ autocontrolmsg }}</span>
+          <!-- 头部右边模块 -->
+          <div class="device_head_right">
+            <div class="hint">
+              <!-- 鼠标悬浮显示提示信息  -->
+              <el-popover placement="top-start" title="使用说明" width="200" trigger="hover" content="如果需要控制设备,请切换至手动模式.">
+                <el-button class="el-icon-question" slot="reference"></el-button>
+              </el-popover>
+            </div>
+            <div class="descript">
+              <h3>当前控制模式为</h3>
+              <br />
+              <br />
+              <span>{{ autocontrolmsg }}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 设备控制页面控制设备部分 -->
-      <div class="device_contain">
-        <div class="device_contain_children device_led">
-          <span>空调</span><br /><br />
-          <img :src="airsrc" /><br /><br />
-          <el-switch style="display: block" v-model="aircon" active-text="开" inactive-text="关" :disabled="autocontrol"> </el-switch>
-        </div>
-        <div class="device_contain_children device_humidifier">
-          <span>加湿器</span><br /><br />
-          <img :src="humisrc" /><br /><br />
-          <el-switch style="display: block" v-model="humidifier" active-text="开" inactive-text="关" :disabled="autocontrol"> </el-switch>
-        </div>
-        <div class="device_contain_children device_aircon">
-          <span>照明灯</span><br /><br />
-          <img :src="ledsrc" /><br /><br />
-          <el-switch style="display: block" v-model="led" active-text="开" inactive-text="关" :disabled="autocontrol"> </el-switch>
+        <!-- 设备控制页面控制设备部分 -->
+        <div class="device_contain">
+          <div class="device_contain_children device_led">
+            <span>空调</span><br /><br />
+            <img :src="airsrc" /><br /><br />
+            <el-switch style="display: block" v-model="aircon" active-text="开" inactive-text="关" :disabled="autocontrol"> </el-switch>
+          </div>
+          <div class="device_contain_children device_humidifier">
+            <span>加湿器</span><br /><br />
+            <img :src="humisrc" /><br /><br />
+            <el-switch style="display: block" v-model="humidifier" active-text="开" inactive-text="关" :disabled="autocontrol"> </el-switch>
+          </div>
+          <div class="device_contain_children device_aircon">
+            <span>照明灯</span><br /><br />
+            <img :src="ledsrc" /><br /><br />
+            <el-switch style="display: block" v-model="led" active-text="开" inactive-text="关" :disabled="autocontrol"> </el-switch>
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +75,8 @@ export default {
       humisrc: require('../../assets/images/humioff.png'),
       airsrc: require('../../assets/images/airoff.png'),
       ledsrc: require('../../assets/images/ledoff.png'),
+      // 加载图层
+      fullscreenLoading: true,
     }
   },
   created() {
@@ -105,6 +109,7 @@ export default {
       // 接收消息处理
       client.on('message', (topic, message) => {
         if (topic === 'raspi/device') {
+          this.fullscreenLoading = false
           const mess = message.toString()
           console.log('收到来自', topic, '的消息', mess)
           const jsonMess = JSON.parse(mess)
