@@ -78,7 +78,9 @@ export default {
   created() {
     this.mqttMsg()
   },
-
+  beforeDestroy() {
+    this.doUnSubscribe('raspi/device')
+  },
   methods: {
     // 获取mqtt数据
     mqttMsg() {
@@ -92,6 +94,14 @@ export default {
           }
         })
       })
+      client.subscribe('raspi/device', { qos: 0 }, (error) => {
+        if (!error) {
+          console.log('订阅raspi/device主题成功')
+        } else {
+          console.log('订阅raspi/device主题失败')
+        }
+      })
+
       // 接收消息处理
       client.on('message', (topic, message) => {
         if (topic === 'raspi/device') {
@@ -111,6 +121,15 @@ export default {
       // 订阅topic主题
       client.publish(topic, jsonmsg)
       // 发布信息
+    },
+    // 取消订阅mqtt主题
+    doUnSubscribe(topic) {
+      client.unsubscribe(topic, (error) => {
+        if (error) {
+          console.log('Unsubscribe error', error)
+        }
+        console.log(`取消订阅MQTT主题：${topic}成功`)
+      })
     },
   },
   watch: {

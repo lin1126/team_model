@@ -226,20 +226,19 @@ export default {
   }, // data到这里结束
   mounted() {
     this.chartChange()
-  },
-  created() {
     this.mqttMSG()
+  },
+  beforeDestroy() {
+    this.doUnSubscribe('raspi/dht11')
   },
   methods: {
     chartChange() {
-      const myEcharts = this.$echarts.init(document.getElementById('chartLineBox'), 'gauge')
-      // 使用刚指定的配置项和数据显示图表。
-      var random1 = this.dd.temp
-      var random2 = this.dd.humi
-      console.log(111)
-      this.option.series[0].data[0].value = random1
-      this.option.series[1].data[0].value = random2
-      myEcharts.setOption(this.option, true)
+      var myEcharts = this.$echarts.init(document.getElementById('chartLineBox'), 'gauge')
+      setInterval(() => {
+        this.option.series[0].data[0].value = this.dd.temp
+        this.option.series[1].data[0].value = this.dd.humi
+        myEcharts.setOption(this.option, true)
+      }, 400)
     },
     mqttMSG() {
       // mqtt连接
@@ -259,16 +258,28 @@ export default {
           }
         )
       })
+      // 订阅mqtt主题
+      client.subscribe(
+        'raspi/dht11',
+        {
+          qos: 1,
+        },
+        (error) => {
+          if (!error) {
+            console.log('订阅成功')
+          } else {
+            console.log('订阅失败')
+          }
+        }
+      )
       // 接收消息处理
       client.on('message', (topic, message) => {
-        const myEcharts = this.$echarts.init(document.getElementById('chartLineBox'), 'gauge')
         console.log('收到来自', topic, '的消息', message.toString())
         this.msg = message.toString()
         const DD = this.msg // 赋值
         this.dd = JSON.parse(DD)
         this.option.series[0].data[0].value = this.dd.temp
         this.option.series[1].data[0].value = this.dd.humi
-        myEcharts.setOption(this.option, true)
       })
 
       // 断开发起重连
@@ -278,6 +289,15 @@ export default {
       // 链接异常处理
       client.on('error', (error) => {
         console.log('连接失败:', error)
+      })
+    },
+    // 取消订阅mqtt主题
+    doUnSubscribe(topic) {
+      client.unsubscribe(topic, (error) => {
+        if (error) {
+          console.log('Unsubscribe error', error)
+        }
+        console.log(`取消订阅MQTT主题：${topic}成功`)
       })
     },
   },

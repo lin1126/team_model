@@ -16,7 +16,7 @@
           <el-image :src="src">
             <div slot="placeholder" class="image-slot">加载中<span class="dot">...</span></div>
             <div slot="error" class="image-slot">
-              <span class="dot">加载失败，请检查摄像头是否正常开启。</span>
+              <span class="dot">加载失败，请检查摄像头是否打开。</span>
             </div>
           </el-image>
         </div>
