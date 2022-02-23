@@ -60,7 +60,7 @@ export default {
       src: 'http://192.168.137.32:4242/',
       // src: 'http://39.105.106.13:8000/',
       // 教室内人数
-      stuNumber: 45,
+      stuNumber: 0,
       errorShow: false,
       openShow: false,
       closeShow: false,
