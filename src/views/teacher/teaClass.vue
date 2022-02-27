@@ -213,7 +213,7 @@ export default {
     async getGrade() {
       const data = await getGrade()
       this.grade = data.filter((value) => {
-        return value._id !== null
+        return value._id !== null && value._id !== ''
       })
     },
     // 获取专业
