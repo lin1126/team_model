@@ -35,7 +35,6 @@ import AdminHome from '@/views/admin/adminHome.vue'
 import AdminVideo from '@/views/admin/adminVideo.vue'
 import AdminEnvironment from '@/views/admin/adminEnvironment.vue'
 import AdminDeviceControl from '@/views/admin/adminDeviceControl.vue'
-import AdminMotionControl from '@/views/admin/adminMotionControl.vue'
 import AdminHumitureShow from '@/views/admin/adminHumitureShow.vue'
 import AdminDeviceShow from '@/views/admin/adminDeviceShow.vue'
 import AdminPictureShow from '@/views/admin/adminPictureShow.vue'
@@ -266,12 +265,6 @@ const routes = [
         name: 'admindevicecontrol',
         path: 'admindevicecontrol',
         component: AdminDeviceControl,
-        meta: { role: '管理员' },
-      },
-      {
-        name: 'adminmotioncontrol',
-        path: 'adminmotioncontrol',
-        component: AdminMotionControl,
         meta: { role: '管理员' },
       },
       {

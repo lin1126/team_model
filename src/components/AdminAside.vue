@@ -11,7 +11,6 @@
       <el-submenu index="2">
         <template slot="title" style="padding-left: 40px"><i class="el-icon-bangzhu"></i>远程控制</template>
         <router-link to="/adminhome/admindevicecontrol"><el-menu-item index="2-1">设备控制</el-menu-item></router-link>
-        <router-link to="/adminhome/adminmotioncontrol"><el-menu-item index="2-2">监控控制</el-menu-item></router-link>
       </el-submenu>
 
       <el-submenu index="3">
