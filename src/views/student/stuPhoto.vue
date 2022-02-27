@@ -14,7 +14,7 @@
           <el-upload
             ref="upload"
             class="avatar-uploader"
-            action="http://127.0.0.1:3000/api/student/updateImage"
+            action="http://39.105.106.13:3000/api/student/updateImage"
             :headers="{ authorization: Token }"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"

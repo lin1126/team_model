@@ -3,8 +3,8 @@ import { Message, Loading } from 'element-ui'
 // 引入过去cookie的函数
 import { getCookie } from '@/utils/cookie.js'
 
-// const configBaseURL = 'http://39.105.106.13:3000/api/'
-const configBaseURL = 'http://127.0.0.1:3000/api/'
+const configBaseURL = 'http://39.105.106.13:3000/api/'
+// const configBaseURL = 'http://127.0.0.1:3000/api/'
 let loadingInstance = null
 
 // 创建axios实例,并导出
