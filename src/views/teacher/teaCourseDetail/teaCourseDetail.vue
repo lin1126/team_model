@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-header><Header></Header></el-header>
+    <el-header>
+      <Header></Header>
+    </el-header>
     <!-- 课程详细部分头部  -->
     <div class="Detail-top">
       <h1 class="course-title">{{ couseTable.name }}</h1>
@@ -14,10 +16,18 @@
     <!-- 右边考勤入口 -->
     <div class="quick-entry-layou">
       <ul>
-        <li><el-button @click="drawer = true" type="primary" icon="el-icon-s-claim" circle></el-button><span>考勤</span></li>
-        <li><el-button type="primary" icon="el-icon-data-board" circle @click="goNotice()"></el-button><span>公告</span></li>
-        <li><el-button type="primary" icon="el-icon-chat-dot-round" circle @click="goMessage()"></el-button><span>留言</span></li>
-        <li><el-button type="primary" icon="el-icon-setting" circle @click="goSet()"></el-button><span>设置</span></li>
+        <li>
+          <el-button @click="drawer = true" type="primary" icon="el-icon-s-claim" circle></el-button><span>考勤</span>
+        </li>
+        <li>
+          <el-button type="primary" icon="el-icon-data-board" circle @click="goNotice()"></el-button><span>公告</span>
+        </li>
+        <li>
+          <el-button type="primary" icon="el-icon-chat-dot-round" circle @click="goMessage()"></el-button><span>留言</span>
+        </li>
+        <li>
+          <el-button type="primary" icon="el-icon-setting" circle @click="goSet()"></el-button><span>设置</span>
+        </li>
       </ul>
     </div>
     <!-- 考勤模块 -->
@@ -61,7 +71,7 @@
     <div class="Detail-content">
       <div class="Detail-content-menu">
         <el-menu class="el-menu-course" :default-active="activeIndex" mode="horizontal" @select="handleSelect" router>
-          <el-menu-item :index="'/teacourseDetail/teacoursetask?courseId=' + this.courseID">任务</el-menu-item>
+          <!-- <el-menu-item :index="'/teacourseDetail/teacoursetask?courseId=' + this.courseID">任务</el-menu-item> -->
           <el-menu-item :index="'/teacourseDetail/teacoursenotice?courseId=' + this.courseID">公告</el-menu-item>
           <el-menu-item :index="'/teacourseDetail/teacoursemessage?courseId=' + this.courseID">留言</el-menu-item>
           <el-menu-item :index="'/teacourseDetail/teacourseinfo?courseId=' + this.courseID">课程介绍</el-menu-item>
@@ -82,7 +92,7 @@ import Header from '@/components/Header.vue'
 export default {
   name: 'teaCourseDetail',
   components: {
-    Header,
+    Header
   },
   data() {
     return {
@@ -98,8 +108,8 @@ export default {
         { color: '#e6a23c', percentage: 40 },
         { color: '#7cf30e', percentage: 60 },
         { color: '#1989fa', percentage: 80 },
-        { color: '#00ff00', percentage: 100 },
-      ],
+        { color: '#00ff00', percentage: 100 }
+      ]
     }
   },
   created() {
@@ -118,7 +128,7 @@ export default {
     // 获取课程详细信息
     async getCourse() {
       const data = {
-        _courseID: this.courseID,
+        _courseID: this.courseID
       }
       const msg = await getCourseDetail(data)
       this.couseTable = msg[0]
@@ -136,8 +146,8 @@ export default {
     // 跳转至设置界面
     goSet() {
       this.$router.push('/teacourseDetail/teacoursecontrol?courseId=' + this.courseID)
-    },
-  },
+    }
+  }
 }
 </script>
 

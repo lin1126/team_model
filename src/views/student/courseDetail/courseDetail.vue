@@ -1,6 +1,8 @@
 <template>
   <div>
-    <el-header><Header></Header></el-header>
+    <el-header>
+      <Header></Header>
+    </el-header>
     <!-- 课程详细部分头部  -->
     <div class="Detail-top">
       <h1 class="course-title">{{ couseTable.name }}</h1>
@@ -15,7 +17,7 @@
     <div class="Detail-content">
       <div class="Detail-content-menu">
         <el-menu class="el-menu-course" :default-active="activeIndex" mode="horizontal" @select="handleSelect" router>
-          <el-menu-item :index="'/courseDetail/courseTask?courseId=' + this.courseID">任务</el-menu-item>
+          <!-- <el-menu-item :index="'/courseDetail/courseTask?courseId=' + this.courseID">任务</el-menu-item> -->
           <el-menu-item :index="'/courseDetail/courseNotice?courseId=' + this.courseID">公告</el-menu-item>
           <el-menu-item :index="'/courseDetail/courseMessage?courseId=' + this.courseID">留言</el-menu-item>
           <el-menu-item :index="'/courseDetail/courseIntro?courseId=' + this.courseID">课程介绍</el-menu-item>
@@ -35,13 +37,13 @@ import Header from '@/components/Header.vue'
 export default {
   name: 'courseDetail',
   components: {
-    Header,
+    Header
   },
   data() {
     return {
       activeIndex: '/courseDetail/courseTask',
       courseID: '',
-      couseTable: {},
+      couseTable: {}
     }
   },
   created() {
@@ -59,13 +61,13 @@ export default {
     // 获取课程详细信息
     async getCourse() {
       const data = {
-        _courseID: this.courseID,
+        _courseID: this.courseID
       }
       const msg = await getCourseDetail(data)
       this.couseTable = msg[0]
       console.log(msg)
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -69,13 +69,13 @@ export default {
       // 新建公告表单内容
       formLabelData: {
         title: '',
-        content: '',
+        content: ''
       },
       // 新建公告表单验证规则
       rules: {
         title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
-        content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
-      },
+        content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
+      }
     }
   },
   methods: {
@@ -85,7 +85,7 @@ export default {
         _id: this.$store.state.id,
         _page: this.page,
         _limit: this.limit,
-        _courseID: this.courseID,
+        _courseID: this.courseID
       }
       const msg = await getCourseNotice(data)
       this.msg = msg
@@ -114,14 +114,14 @@ export default {
               courseName: this.courseInfo.name,
               grade: this.courseInfo.grade,
               career: this.courseInfo.career,
-              class: this.courseInfo.class,
-            },
+              class: this.courseInfo.class
+            }
           }
           const data = await addCourseNotice(msg)
           if (data === 'OK') {
             this.$message({
               message: '发布课堂公告成功',
-              type: 'success',
+              type: 'success'
             })
             // 添加成功后清空文本框，关闭对话框，并重新获取公告
             this.formLabelData.title = ''
@@ -133,11 +133,11 @@ export default {
           return false
         }
       })
-    },
+    }
   },
   computed: {
-    ...mapState(['courseInfo', 'id']),
-  },
+    ...mapState(['courseInfo', 'id'])
+  }
 }
 </script>
 
