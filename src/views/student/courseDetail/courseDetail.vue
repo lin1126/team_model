@@ -9,14 +9,20 @@
       <h2 class="course-class">{{ couseTable.class }}</h2>
       <p class="course-number">已有48人加入本课程</p>
       <div class="course-pic">
-        <el-image style="width: 240px; height: 180px" :src="couseTable.Photo" :fit="fill"></el-image>
+        <el-image style="width: 240px; height: 180px"
+                  :src="couseTable.Photo"
+                  :fit="fill"></el-image>
         <p class="course-evaluate"><a :href="'/#/courseDetail/courseMessage?courseId=' + this.courseID">课程留言</a></p>
       </div>
     </div>
     <!-- 课程详细部分主体 -->
     <div class="Detail-content">
       <div class="Detail-content-menu">
-        <el-menu class="el-menu-course" :default-active="activeIndex" mode="horizontal" @select="handleSelect" router>
+        <el-menu class="el-menu-course"
+                 :default-active="activeIndex"
+                 mode="horizontal"
+                 @select="handleSelect"
+                 router>
           <!-- <el-menu-item :index="'/courseDetail/courseTask?courseId=' + this.courseID">任务</el-menu-item> -->
           <el-menu-item :index="'/courseDetail/courseNotice?courseId=' + this.courseID">公告</el-menu-item>
           <el-menu-item :index="'/courseDetail/courseMessage?courseId=' + this.courseID">留言</el-menu-item>
@@ -39,27 +45,28 @@ export default {
   components: {
     Header
   },
-  data() {
+  data () {
     return {
-      activeIndex: '/courseDetail/courseTask',
+      activeIndex: '',
       courseID: '',
       couseTable: {}
     }
   },
-  created() {
+  created () {
     this.getURl()
   },
-  mounted() {
+  mounted () {
     this.getCourse()
   },
   methods: {
     // 获取网址栏上的课程号
-    getURl() {
+    getURl () {
       const url = this.$route.query
       this.courseID = url.courseId
+      this.activeIndex = '/courseDetail/courseNotice?courseId=' + this.courseID
     },
     // 获取课程详细信息
-    async getCourse() {
+    async getCourse () {
       const data = {
         _courseID: this.courseID
       }

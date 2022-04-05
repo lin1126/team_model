@@ -115,7 +115,7 @@ const routes = [
     path: '/courseDetail',
     name: 'CourseDetail',
     component: CourseDetail,
-    redirect: '/courseDetail/coursetask',
+    redirect: '/courseDetail/courseNotice',
     meta: { role: '学生' },
     children: [
       {
@@ -208,7 +208,7 @@ const routes = [
     path: '/teacourseDetail',
     name: 'teaCourseDetail',
     component: TeaCourseDetail,
-    redirect: '/teacourseDetail/teacoursetask',
+    redirect: '/teacourseDetail/teacoursenotice',
     meta: { role: '教师' },
     children: [
       {

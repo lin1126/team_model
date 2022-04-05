@@ -1,12 +1,20 @@
 <template>
   <div>
     <el-container>
-      <el-header><AdminHeader></AdminHeader></el-header>
+      <el-header>
+        <AdminHeader></AdminHeader>
+      </el-header>
       <el-row>
-        <el-col :xs="2" :sm="2" :md="4">
-          <div class="aside"><AdminAside></AdminAside></div>
+        <el-col :xs="2"
+                :sm="2"
+                :md="4">
+          <div class="aside">
+            <AdminAside></AdminAside>
+          </div>
         </el-col>
-        <el-col :xs="22" :sm="22" :md="20">
+        <el-col :xs="22"
+                :sm="22"
+                :md="20">
           <el-main>
             <!-- 利用路由切换主内容部分 -->
             <router-view></router-view>
@@ -38,7 +46,7 @@ export default {
   box-shadow: 0 3px 3px #dcdfe6;
 }
 .aside {
-  min-height: 680px;
+  min-height: calc(100vh -74px);
   background-color: #fff;
   text-align: left;
   padding: 1rem 0;
@@ -50,7 +58,7 @@ export default {
 
 .el-main {
   position: relative;
-  min-height: 660px;
+  min-height: calc(100vh - 90px);
   margin: 1rem;
   padding: 10px;
   border-radius: 14px;

@@ -1,8 +1,12 @@
 <template>
   <div class="course-notice">
-    <div class="course-notice-contain" v-for="item in msg" :key="item._id">
+    <div class="course-notice-contain"
+         v-for="item in msg"
+         :key="item._id">
       <!-- 触发按钮 -->
-      <el-button type="text" @click="item.show = true" class="course-btn">
+      <el-button type="text"
+                 @click="item.show = true"
+                 class="course-btn">
         <div class="course-notice-list">
           <div class="course-notice-list-logo">公告</div>
           <span class="course-notice-list-title">{{ item.title }}</span>
@@ -10,14 +14,19 @@
         </div>
       </el-button>
       <!-- 弹出消息 -->
-      <el-dialog :title="item.title" :visible.sync="item.show" width="30%" :before-close="handleClose">
+      <el-dialog :title="item.title"
+                 :visible.sync="item.show"
+                 width="30%"
+                 :before-close="handleClose">
         <span class="course-dialog-content">
           {{ item.notice }}
         </span>
 
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer"
+              class="dialog-footer">
           <el-button @click="item.show = false">取 消</el-button>
-          <el-button type="primary" @click="item.show = false">确 定</el-button>
+          <el-button type="primary"
+                     @click="item.show = false">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -28,13 +37,13 @@
 import { getCourseNotice } from '@/api/student/courseDetail/courseNotice.js'
 import { formatTime } from '@/utils/formatTime.js'
 export default {
-  created() {
+  created () {
     this.getURl()
   },
-  mounted() {
+  mounted () {
     this.getNotice()
   },
-  data() {
+  data () {
     return {
       page: 1,
       limit: 10,
@@ -43,31 +52,28 @@ export default {
     }
   },
   methods: {
-    handleClose(done) {
+    handleClose (done) {
       this.$confirm('确认关闭？')
         .then((_) => {
           done()
         })
-        .catch((_) => {})
+        .catch((_) => { })
     },
     // 获取课堂通知
-    async getNotice() {
+    async getNotice () {
       const data = {
-        _id: this.$store.state.id,
-        _page: this.page,
-        _limit: this.limit,
         _courseID: this.courseID,
       }
       const msg = await getCourseNotice(data)
       this.msg = msg
     },
     // 获取网址栏上的课程号
-    getURl() {
+    getURl () {
       const url = this.$route.query
       this.courseID = url.courseId
     },
     // 格式化时间
-    TimeFormat(data) {
+    TimeFormat (data) {
       return formatTime(data)
     },
   },
