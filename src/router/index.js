@@ -1,44 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// 引入登录部分路由组件
-import Login from '@/views/login.vue'
-// 引入学生部分路由组件
-import StuHomePage from '@/views/student/stuHomePage.vue'
-import StudyCourse from '@/views/student/studyCourse.vue'
-import EndCourse from '@/views/student/endCourse.vue'
-import InfromClass from '@/views/student/informClass.vue'
-import Message from '@/views/student/message.vue'
-import ClassroomQuery from '@/views/student/classroomQuery.vue'
-import StuInfo from '@/views/student/stuInfo.vue'
-import StuPhoto from '@/views/student/stuPhoto.vue'
-import StuPassword from '@/views/student/stuPassword.vue'
-import CourseDetail from '@/views/student/courseDetail/courseDetail.vue'
-// 引入学生课程路由组件
-import CourseTask from '@/views/student/courseDetail/courseTask.vue'
-import CourseNotice from '@/views/student/courseDetail/courseNotice.vue'
-import CourseMessage from '@/views/student/courseDetail/courseMessage.vue'
-import CourseIntro from '@/views/student/courseDetail/courseIntro.vue'
-// 引入教师路由组件
-import TeaHome from '@/views/teacher/teaHome.vue'
-import TeaClass from '@/views/teacher/teaClass.vue'
-import TeaCourse from '@/views/teacher/teaCourse.vue'
-import TeaInfo from '@/views/teacher/teaInfo.vue'
-// 引入教师课程路由组件
-import TeaCourseDetail from '@/views/teacher/teaCourseDetail/teaCourseDetail.vue'
-import TeaCourseInfo from '@/views/teacher/teaCourseDetail/teaCourseInfo.vue'
-import TeaCourseMessage from '@/views/teacher/teaCourseDetail/teaCourseMessage.vue'
-import TeaCourseNotice from '@/views/teacher/teaCourseDetail/teaCourseNotice.vue'
-import TeaCourseTask from '@/views/teacher/teaCourseDetail/teaCourseTask.vue'
-import TeaCourseControl from '@/views/teacher/teaCourseDetail/teaCourseControl.vue'
-// 引入管理员路由组件
-import AdminHome from '@/views/admin/adminHome.vue'
-import AdminVideo from '@/views/admin/adminVideo.vue'
-import AdminEnvironment from '@/views/admin/adminEnvironment.vue'
-import AdminDeviceControl from '@/views/admin/adminDeviceControl.vue'
-import AdminHumitureShow from '@/views/admin/adminHumitureShow.vue'
-import AdminDeviceShow from '@/views/admin/adminDeviceShow.vue'
-import AdminPictureShow from '@/views/admin/adminPictureShow.vue'
-import AdminInfo from '@/views/admin/adminInfo.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -49,12 +10,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login,
+    component: () => import('@/views/login.vue'),
   },
   {
     path: '/stuhomepage',
     name: 'StuHomePage',
-    component: StuHomePage,
+    component: () => import('@/views/student/stuHomePage.vue'),
     meta: { role: '学生' },
     children: [
       {
@@ -64,49 +25,49 @@ const routes = [
       {
         path: 'studycourse',
         name: 'StudyCourse',
-        component: StudyCourse,
+        component: () => import('@/views/student/studyCourse.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'endcourse',
         name: 'EndCourse',
-        component: EndCourse,
+        component: () => import('@/views/student/endCourse.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'infromClass',
         name: 'InfromClass',
-        component: InfromClass,
+        component: () => import('@/views/student/informClass.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'message',
         name: 'Message',
-        component: Message,
+        component: () => import('@/views/student/message.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'classroomQuery',
         name: 'ClassroomQuery',
-        component: ClassroomQuery,
+        component: () => import('@/views/student/classroomQuery.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'stuInfo',
         name: 'StuInfo',
-        component: StuInfo,
+        component: () => import('@/views/student/stuInfo.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'stuPhoto',
         name: 'StuPhoto',
-        component: StuPhoto,
+        component: () => import('@/views/student/stuPhoto.vue'),
         meta: { role: '学生' },
       },
       {
         path: 'stuPassword',
         name: 'StuPassword',
-        component: StuPassword,
+        component: () => import('@/views/student/stuPassword.vue'),
         meta: { role: '学生' },
       },
     ],
@@ -114,32 +75,32 @@ const routes = [
   {
     path: '/courseDetail',
     name: 'CourseDetail',
-    component: CourseDetail,
+    component: () => import('@/views/student/courseDetail/courseDetail.vue'),
     redirect: '/courseDetail/courseNotice',
     meta: { role: '学生' },
     children: [
       {
         name: 'coursetask',
         path: 'coursetask',
-        component: CourseTask,
+        component: () => import('@/views/student/courseDetail/courseTask.vue'),
         meta: { role: '学生' },
       },
       {
         name: 'courseNotice',
         path: 'courseNotice',
-        component: CourseNotice,
+        component: () => import('@/views/student/courseDetail/courseNotice.vue'),
         meta: { role: '学生' },
       },
       {
         name: 'courseMessage',
         path: 'courseMessage',
-        component: CourseMessage,
+        component: () => import('@/views/student/courseDetail/courseMessage.vue'),
         meta: { role: '学生' },
       },
       {
         name: 'courseIntro',
         path: 'courseIntro',
-        component: CourseIntro,
+        component: () => import('@/views/student/courseDetail/courseIntro.vue'),
         meta: { role: '学生' },
       },
     ],
@@ -147,7 +108,7 @@ const routes = [
   {
     path: '/teahome',
     name: 'TeaHome',
-    component: TeaHome,
+    component: () => import('@/views/teacher/teaHome.vue'),
     meta: { role: '教师' },
     children: [
       {
@@ -157,49 +118,49 @@ const routes = [
       {
         path: 'teacourse',
         name: 'TeaCourse',
-        component: TeaCourse,
+        component: () => import('@/views/teacher/teaCourse.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'teaclass',
         name: 'TeaClass',
-        component: TeaClass,
+        component: () => import('@/views/teacher/teaClass.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'teainfo',
         name: 'TeaInfo',
-        component: TeaInfo,
+        component: () => import('@/views/teacher/teaInfo.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'infromClass',
         name: 'TeaInfromClass',
-        component: InfromClass,
+        component: () => import('@/views/student/informClass.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'message',
         name: 'TeaMessage',
-        component: Message,
+        component: () => import('@/views/student/message.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'classroomQuery',
         name: 'TeaClassroomQuery',
-        component: ClassroomQuery,
+        component: () => import('@/views/student/classroomQuery.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'teaPhoto',
         name: 'TeaPhoto',
-        component: StuPhoto,
+        component: () => import('@/views/student/stuPhoto.vue'),
         meta: { role: '教师' },
       },
       {
         path: 'teaPassword',
         name: 'TeaPassword',
-        component: StuPassword,
+        component: () => import('@/views/student/stuPassword.vue'),
         meta: { role: '教师' },
       },
     ],
@@ -207,38 +168,38 @@ const routes = [
   {
     path: '/teacourseDetail',
     name: 'teaCourseDetail',
-    component: TeaCourseDetail,
+    component: () => import('@/views/teacher/teaCourseDetail/teaCourseDetail.vue'),
     redirect: '/teacourseDetail/teacoursenotice',
     meta: { role: '教师' },
     children: [
       {
         name: 'teacoursetask',
         path: 'teacoursetask',
-        component: TeaCourseTask,
+        component: () => import('@/views/teacher/teaCourseDetail/teaCourseTask.vue'),
         meta: { role: '教师' },
       },
       {
         name: 'teacourseinfo',
         path: 'teacourseinfo',
-        component: TeaCourseInfo,
+        component: () => import('@/views/teacher/teaCourseDetail/teaCourseInfo.vue'),
         meta: { role: '教师' },
       },
       {
         name: 'teacoursemessage',
         path: 'teacoursemessage',
-        component: TeaCourseMessage,
+        component: () => import('@/views/teacher/teaCourseDetail/teaCourseMessage.vue'),
         meta: { role: '教师' },
       },
       {
         name: 'teacoursenotice',
         path: 'teacoursenotice',
-        component: TeaCourseNotice,
+        component: () => import('@/views/teacher/teaCourseDetail/teaCourseNotice.vue'),
         meta: { role: '教师' },
       },
       {
         name: 'teacoursecontrol',
         path: 'teacoursecontrol',
-        component: TeaCourseControl,
+        component: () => import('@/views/teacher/teaCourseDetail/teaCourseControl.vue'),
         meta: { role: '教师' },
       },
     ],
@@ -246,61 +207,61 @@ const routes = [
   {
     path: '/adminhome',
     name: 'AdminHome',
-    component: AdminHome,
+    component: () => import('@/views/admin/adminHome.vue'),
     meta: { role: '管理员' },
     children: [
       {
         name: 'adminvideo',
         path: 'adminvideo',
-        component: AdminVideo,
+        component: () => import('@/views/admin/adminVideo.vue'),
         meta: { role: '管理员' },
       },
       {
         name: 'adminenvironment',
         path: 'adminenvironment',
-        component: AdminEnvironment,
+        component: () => import('@/views/admin/adminEnvironment.vue'),
         meta: { role: '管理员' },
       },
       {
         name: 'admindevicecontrol',
         path: 'admindevicecontrol',
-        component: AdminDeviceControl,
+        component: () => import('@/views/admin/adminDeviceControl.vue'),
         meta: { role: '管理员' },
       },
       {
         name: 'adminhumitureshow',
         path: 'adminhumitureshow',
-        component: AdminHumitureShow,
+        component: () => import('@/views/admin/adminHumitureShow.vue'),
         meta: { role: '管理员' },
       },
       {
         name: 'admindeviceshow',
         path: 'admindeviceshow',
-        component: AdminDeviceShow,
+        component: () => import('@/views/admin/adminDeviceShow.vue'),
         meta: { role: '管理员' },
       },
       {
         name: 'adminpictureshow',
         path: 'adminpictureshow',
-        component: AdminPictureShow,
+        component: () => import('@/views/admin/adminPictureShow.vue'),
         meta: { role: '管理员' },
       },
       {
         name: 'admininfo',
         path: 'admininfo',
-        component: AdminInfo,
+        component: () => import('@/views/admin/adminInfo.vue'),
         meta: { role: '管理员' },
       },
       {
         path: 'adminPhoto',
         name: 'adminPhoto',
-        component: StuPhoto,
+        component: () => import('@/views/student/stuPhoto.vue'),
         meta: { role: '管理员' },
       },
       {
         path: 'adminPassword',
         name: 'adminPassword',
-        component: StuPassword,
+        component: () => import('@/views/student/stuPassword.vue'),
         meta: { role: '管理员' },
       },
     ],
