@@ -7,8 +7,9 @@
       </div>
       <!-- 分割线 -->
       <el-divider></el-divider>
-      <div>
-        <div id="chartLineBox" style="width: 100%; height: 360px"></div>
+      <div style="overflow:hidden">
+        <div id="chartLineBox"
+             style="width: 100%; height: 360px"></div>
       </div>
     </div>
   </div>
@@ -22,7 +23,7 @@ export default {
   components: {
     PageHeader,
   },
-  data() {
+  data () {
     return {
       dd: {
         humi: 60,
@@ -224,15 +225,15 @@ export default {
       },
     } // return 到此结束
   }, // data到这里结束
-  mounted() {
+  mounted () {
     this.chartChange()
     this.mqttMSG()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.doUnSubscribe('raspi/dht11')
   },
   methods: {
-    chartChange() {
+    chartChange () {
       var myEcharts = this.$echarts.init(document.getElementById('chartLineBox'), 'gauge')
       setInterval(() => {
         this.option.series[0].data[0].value = this.dd.temp
@@ -240,7 +241,7 @@ export default {
         myEcharts.setOption(this.option, true)
       }, 400)
     },
-    mqttMSG() {
+    mqttMSG () {
       // mqtt连接
       client.on('connect', (e) => {
         console.log('连接成功:')
@@ -292,7 +293,7 @@ export default {
       })
     },
     // 取消订阅mqtt主题
-    doUnSubscribe(topic) {
+    doUnSubscribe (topic) {
       client.unsubscribe(topic, (error) => {
         if (error) {
           console.log('Unsubscribe error', error)

@@ -38,6 +38,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background-color: #f5f5f5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #c8c8c8;
+}
 .el-header {
   z-index: 999;
   background-color: #79bbff;
@@ -46,7 +68,8 @@ export default {
   box-shadow: 0 3px 3px #dcdfe6;
 }
 .aside {
-  min-height: calc(100vh - 74px);
+  overflow: auto;
+  max-height: calc(100vh - 74px) !important;
   background-color: #fff;
   text-align: left;
   padding: 1rem 0;
@@ -57,7 +80,9 @@ export default {
 }
 
 .el-main {
+  overflow: auto;
   position: relative;
+  max-height: calc(100vh - 90px);
   min-height: calc(100vh - 90px);
   margin: 1rem;
   padding: 10px;

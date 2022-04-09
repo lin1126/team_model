@@ -39,9 +39,11 @@ export default {
 
 <style lang="less" scoped>
 #app {
+  overflow: hidden;
   width: 100%;
   height: 100%;
 }
+
 .el-backtop {
   width: 100px;
   border-radius: 14px;

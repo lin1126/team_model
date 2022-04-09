@@ -4,41 +4,71 @@
       <Header></Header>
     </el-header>
     <!-- 课程详细部分头部  -->
-    <div class="Detail-top">
-      <h1 class="course-title">{{ couseTable.name }}</h1>
-      <h2 class="course-class">{{ couseTable.class }}</h2>
-      <p class="course-number">已有48人加入本课程</p>
-      <div class="course-pic">
-        <el-image style="width: 240px; height: 180px" :src="couseTable.Photo" :fit="fill"></el-image>
-        <p class="course-evaluate"><a :href="'/#/teacourseDetail/teacoursemessage?courseId=' + this.courseID">课程留言</a></p>
+    <el-collapse-transition>
+      <div class="Detail-top transition-box"
+           v-if="isVisible">
+        <h1 class="course-title">{{ couseTable.name }}</h1>
+        <h2 class="course-class">{{ couseTable.class }}</h2>
+        <p class="course-number">已有48人加入本课程</p>
+        <div class="course-pic">
+          <el-image style="width: 240px; height: 180px"
+                    :src="couseTable.Photo"
+                    :fit="fill"></el-image>
+          <p class="course-evaluate"><a :href="'/#/teacourseDetail/teacoursemessage?courseId=' + this.courseID">课程留言</a></p>
+        </div>
       </div>
-    </div>
+    </el-collapse-transition>
+    <el-collapse-transition>
+      <div class="Detail-top-simple transition-box"
+           v-if="!isVisible">
+        <h1 class="course-title">{{ couseTable.name }}</h1>
+      </div>
+    </el-collapse-transition>
     <!-- 右边考勤入口 -->
     <div class="quick-entry-layou">
       <ul>
         <li>
-          <el-button @click="drawer = true" type="primary" icon="el-icon-s-claim" circle></el-button><span>考勤</span>
+          <el-button @click="drawer = true"
+                     type="primary"
+                     icon="el-icon-s-claim"
+                     circle></el-button><span>考勤</span>
         </li>
         <li>
-          <el-button type="primary" icon="el-icon-data-board" circle @click="goNotice()"></el-button><span>公告</span>
+          <el-button type="primary"
+                     icon="el-icon-data-board"
+                     circle
+                     @click="goNotice()"></el-button><span>公告</span>
         </li>
         <li>
-          <el-button type="primary" icon="el-icon-chat-dot-round" circle @click="goMessage()"></el-button><span>留言</span>
+          <el-button type="primary"
+                     icon="el-icon-chat-dot-round"
+                     circle
+                     @click="goMessage()"></el-button><span>留言</span>
         </li>
         <li>
-          <el-button type="primary" icon="el-icon-setting" circle @click="goSet()"></el-button><span>设置</span>
+          <el-button type="primary"
+                     icon="el-icon-setting"
+                     circle
+                     @click="goSet()"></el-button><span>设置</span>
         </li>
       </ul>
     </div>
     <!-- 考勤模块 -->
     <div class="course-checking-in">
-      <el-drawer title="考勤" :visible.sync="drawer" direction="ltr" :before-close="handleClose" size="95%" :modal="false">
+      <el-drawer title="考勤"
+                 :visible.sync="drawer"
+                 direction="ltr"
+                 :before-close="handleClose"
+                 size="95%"
+                 :modal="false">
         <div class="course-check-contain">
           <!-- 考勤模块头部 -->
           <div class="course-check-header">
             <p>计算机组成原理<span>---18物联网工程2班</span></p>
             <div class="course-check-header-btn">
-              <el-button type="primary" icon="el-icon-circle-plus-outline" round>新建考勤</el-button>
+              <el-button type="primary"
+                         icon="el-icon-circle-plus-outline"
+                         round>新建考勤</el-button>
               <span>班级人数 0 人</span>
             </div>
           </div>
@@ -46,7 +76,8 @@
           <div class="course-check-table">
             <div class="course-check-table-header">
               <span>考勤历史(5)次 </span>
-              <el-link icon="el-icon-download" :underline="false">下载数据</el-link>
+              <el-link icon="el-icon-download"
+                       :underline="false">下载数据</el-link>
             </div>
             <!-- 各条考勤记录部分 -->
             <div class="course-check-table-items">
@@ -57,7 +88,9 @@
                 </div>
                 <div class="table-body-right">
                   <div class="table-body-progress">
-                    <el-progress type="dashboard" :percentage="percentage" :color="colors"></el-progress>
+                    <el-progress type="dashboard"
+                                 :percentage="percentage"
+                                 :color="colors"></el-progress>
                   </div>
                   <span><i class="el-icon-more-outline"></i></span>
                 </div>
@@ -70,15 +103,26 @@
     <!-- 课程详细部分主体 -->
     <div class="Detail-content">
       <div class="Detail-content-menu">
-        <el-menu class="el-menu-course" :default-active="activeIndex" mode="horizontal" @select="handleSelect" router>
+        <el-menu class="el-menu-course"
+                 :default-active="activeIndex"
+                 mode="horizontal"
+                 @select="handleSelect"
+                 router>
           <!-- <el-menu-item :index="'/teacourseDetail/teacoursetask?courseId=' + this.courseID">任务</el-menu-item> -->
           <el-menu-item :index="'/teacourseDetail/teacoursenotice?courseId=' + this.courseID">公告</el-menu-item>
           <el-menu-item :index="'/teacourseDetail/teacoursemessage?courseId=' + this.courseID">留言</el-menu-item>
           <el-menu-item :index="'/teacourseDetail/teacourseinfo?courseId=' + this.courseID">课程介绍</el-menu-item>
           <el-menu-item :index="'/teacourseDetail/teacoursecontrol?courseId=' + this.courseID">课程管理</el-menu-item>
+          <!-- 收起课程视图 -->
+          <el-button type="info"
+                     :icon="isVisible?'el-icon-arrow-up':'el-icon-arrow-down'
+"
+                     circle
+                     class="pack-up"
+                     @click="packUpHead()"></el-button>
         </el-menu>
       </div>
-      <div class="Detail-contain">
+      <div :class="{'Detail-contain': isVisible,'Detail-contain-1': !isVisible}">
         <!-- 路由模块 -->
         <router-view></router-view>
       </div>
@@ -94,7 +138,7 @@ export default {
   components: {
     Header
   },
-  data() {
+  data () {
     return {
       url: require('@/assets/images/detailTop.jpg'),
       activeIndex: '/courseDetail/courseTask',
@@ -109,24 +153,25 @@ export default {
         { color: '#7cf30e', percentage: 60 },
         { color: '#1989fa', percentage: 80 },
         { color: '#00ff00', percentage: 100 }
-      ]
+      ],
+      isVisible: true,
     }
   },
-  created() {
+  created () {
     this.getURl()
   },
-  mounted() {
+  mounted () {
     this.getCourse()
   },
   methods: {
     // 获取网址栏上的课程号
-    getURl() {
+    getURl () {
       const url = this.$route.query
       this.courseID = url.courseId
     },
 
     // 获取课程详细信息
-    async getCourse() {
+    async getCourse () {
       const data = {
         _courseID: this.courseID
       }
@@ -134,17 +179,20 @@ export default {
       this.couseTable = msg[0]
       this.$store.commit('SET_COURSEINFO', msg[0])
     },
-
+    // 收起课程展示
+    packUpHead () {
+      this.isVisible = !this.isVisible
+    },
     // 跳转路由至公告界面
-    goNotice() {
+    goNotice () {
       this.$router.push('/teacourseDetail/teacoursenotice?courseId=' + this.courseID)
     },
     // 跳转路由至留言界面
-    goMessage() {
+    goMessage () {
       this.$router.push('/teacourseDetail/teacoursemessage?courseId=' + this.courseID)
     },
     // 跳转至设置界面
-    goSet() {
+    goSet () {
       this.$router.push('/teacourseDetail/teacoursecontrol?courseId=' + this.courseID)
     }
   }
@@ -152,6 +200,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background-color: #f5f5f5;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #c8c8c8;
+}
 .el-header {
   z-index: 999;
   background-color: #79bbff;
@@ -224,10 +294,25 @@ export default {
     border-radius: 14px;
   }
 }
+.Detail-top-simple {
+  position: relative;
+  height: 40spx;
+  line-height: 40px;
+  margin: 10px 98px;
+  background: #79bbff;
+  border-radius: 14px;
+  text-align: center;
+  .course-title {
+    margin: 0;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 400;
+  }
+}
 
 .Detail-content {
-  min-height: 480px;
-  margin: 20px 98px;
+  min-height: calc(100vh - 320px);
+  margin: 0 98px;
   background-color: #fff;
 
   .el-menu-item {
@@ -236,6 +321,13 @@ export default {
   }
 
   .Detail-contain {
+    overflow: auto;
+    max-height: calc(100vh - 406px);
+    padding: 14px 32px;
+  }
+  .Detail-contain-1 {
+    overflow: auto;
+    max-height: calc(100vh - 212px);
     padding: 14px 32px;
   }
 }
@@ -428,5 +520,11 @@ export default {
     -webkit-box-shadow: inset 0 0 6px #9e9e9e;
     background-color: #9e9e9e;
   }
+}
+.pack-up {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>
