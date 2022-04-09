@@ -12,11 +12,18 @@ import request from '@/api/request.js'
 // 引入获取cookie的函数
 import { getCookie, delCookie } from '@/utils/cookie.js'
 // 引入echarts图表
-import * as echarts from 'echarts'
+import * as echarts from 'echarts/core'
+import { TooltipComponent, LegendComponent, GridComponent, TitleComponent } from 'echarts/components'
+import { GaugeChart, PieChart, LineChart } from 'echarts/charts'
+import { LabelLayout, UniversalTransition } from 'echarts/features'
+import { CanvasRenderer } from 'echarts/renderers'
+echarts.use([TooltipComponent, GaugeChart, CanvasRenderer,
+  LegendComponent, PieChart, LabelLayout, GridComponent, LineChart, UniversalTransition, TitleComponent])
+
 // 引入ajax
 // 设置为全局下利用$request就可以调用
 Vue.prototype.$request = request
-// 引入echarts图表
+// 注册echarts图表
 Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 
